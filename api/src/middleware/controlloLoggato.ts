@@ -14,6 +14,7 @@ export const controlloLoggato = async (req:any, res:any, next:Function)=>{
         if(ris.rowCount != 0){
             req.body.utenteLoggato = {
                 matricola: ris.rows[0].matricola,
+                password: ris.rows[0].password,
                 username
             }
             next()

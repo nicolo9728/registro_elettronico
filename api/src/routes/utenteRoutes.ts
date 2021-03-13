@@ -6,37 +6,6 @@ import { controlloLoggato } from "../middleware/controlloLoggato";
 
 export const utenteRoutes = Router()
 
-
-utenteRoutes.post("/", async (req, res) => {
-
-    let matricola;
-
-    try {
-        const { username, password, tipo, nome, cognome, dataNascita } = req.body
-
-        const salt = await genSalt()
-        const passwordCriptata = await hash(password, salt)
-
-        const risultato = await Utilita.db.query(
-            "INSERT into Utenti (username, password, tipo) values ($1, $2, $3) returning matricola",
-            [username, passwordCriptata, tipo]
-        )
-
-        matricola = risultato.rows[0].matricola
-        await Utilita.db.query(`INSERT into ${tipo == "Docente" ? "Docenti" : "Studenti"} (idDocente, nome, cognome, dataNascita) values($1, $2, $3, $4)`, [matricola, nome, cognome, dataNascita])
-
-        const token = sign(username, Utilita.password)
-
-        res.status(200).send(token)
-    }
-    catch (e) {
-        if (matricola)
-            await Utilita.db.query("DELETE from Utenti where matricola=" + matricola);
-
-        res.status(400).send("dati non validi o username gia esistente: " + e.message)
-    }
-})
-
 utenteRoutes.post("/login", async (req, res) => {
     const { username, password } = req.body;
 

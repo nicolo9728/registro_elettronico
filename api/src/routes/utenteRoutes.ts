@@ -86,7 +86,6 @@ utenteRoutes.post("/aggiornaPassword", controlloLoggato, async (req, res) => {
     const matricola = req.body.utenteLoggato.matricola;
     let nuovaPassword = req.body.password
 
-    console.log(matricola)
     try {
 
         const salt = await genSalt()

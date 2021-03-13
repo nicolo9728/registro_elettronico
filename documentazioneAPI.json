@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "0f01bcca-9d26-412f-931e-ab76bb5523a3",
+		"name": "scuola",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "crea docente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"test9728\",\r\n    \"password\": \"1234\",\r\n    \"tipo\": \"Docente\",\r\n    \"nome\": \"test\",\r\n    \"cognome\": \"test\",\r\n    \"dataNascita\": \"2015-12-22\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/utenti/",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"utenti",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OttieniDatiUtente",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.Y3Jvc2F0bzEydzIzNDI2Mg.zlZApPLQq0Zma7t5p7ithB-fySzZMnX-TlDH9ywFVvA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/utenti/Docente",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"utenti",
+						"Docente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"test9728\",\r\n    \"password\": \"abc\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/utenti/login",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"utenti",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "aggiornaPassword",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.dGVzdDk3Mjg.VH7aXKhPGadsEqKl21eZbX_fWIATmz9BPmYQ9l5jyBs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"abc\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/utenti/aggiornaPassword",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"utenti",
+						"aggiornaPassword"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

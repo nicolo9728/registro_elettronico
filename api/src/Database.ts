@@ -1,6 +1,6 @@
 import { Client, Pool } from "pg"
 
-export class Database{
+export class Utilita{
     static db = new Client({
         user: "postgres",
         password: "1234",
@@ -8,4 +8,5 @@ export class Database{
         database: "registro"
     });
 
+    static password = "1234"
 }

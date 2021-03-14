@@ -15,3 +15,15 @@ materieRoutes.get("/", async (req, res)=>{
         res.status(500).send("errore interno")
     }
 })
+
+materieRoutes.get("/insegnate", controlloLoggato, controlloDocente, async (req, res)=>{
+    const matricola = req.body.utenteLoggato.matricola
+
+    try{
+        const materieInsegnate = await Utilita.db.query(`SELECT nomeMateria, descrizione from Competenze natural join Materie where idDocente=${matricola}`)
+        res.status(200).json(materieInsegnate.rows)
+    }
+    catch(e){
+        res.status(500).send("errore interno: "+ e.message)
+    }
+})

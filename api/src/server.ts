@@ -1,6 +1,7 @@
 import express from "express"
 import { Utilita } from "./Database"
 import { docenteRoutes } from "./routes/docenteRoutes"
+import { materieRoutes } from "./routes/materieRoutes"
 import { studenteRoutes } from "./routes/studenteRoutes"
 import { utenteRoutes } from "./routes/utenteRoutes"
 const app = express()
@@ -17,6 +18,6 @@ Utilita.db.connect()
 app.use("/utenti/",utenteRoutes)
 app.use("/docenti/", docenteRoutes)
 app.use("/studenti/", studenteRoutes)
-
+app.use("/materie/", materieRoutes)
 
 app.listen(porta, ()=>console.log(`server aperto sulla porta ${porta}`))

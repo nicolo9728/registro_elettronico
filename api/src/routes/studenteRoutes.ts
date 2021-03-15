@@ -1,7 +1,7 @@
 import { genSalt, hash } from "bcrypt";
 import { Router } from "express";
 import { sign } from "jsonwebtoken";
-import { Utilita } from "../Database";
+import { Pool } from "pg";
 
 export const studenteRoutes = Router()
 
@@ -12,17 +12,17 @@ studenteRoutes.post("/", async (req ,res)=>{
         const salt = await genSalt()
         const passwordhash = await hash(password, salt)
 
-        const risultato = await Utilita.db.query("INSERT into UTENTI (username, password, tipo) values($1, $2, 'Studente') returning matricola", [username, passwordhash])
+        const risultato = await new Pool().query("INSERT into UTENTI (username, password, tipo) values($1, $2, 'Studente') returning matricola", [username, passwordhash])
         matricola = risultato.rows[0].matricola
 
-        await Utilita.db.query("INSERT into STUDENTI (idStudente, nome, cognome, dataNascita, idClasse) values ($1, $2, $3, $4, $5)", [matricola, nome, cognome, dataNascita, idClasse])
+        await new Pool().query("INSERT into STUDENTI (idStudente, nome, cognome, dataNascita, idClasse) values ($1, $2, $3, $4, $5)", [matricola, nome, cognome, dataNascita, idClasse])
 
-        const token = sign(username, Utilita.password)
+        const token = sign(username, <string> process.env.JWTPASSWORD)
         res.status(200).send(token)
     }
     catch(e){
         if(matricola)
-            await Utilita.db.query("DELETE from Utenti where matricola=" + matricola);
+            await new Pool().query("DELETE from Utenti where matricola=" + matricola);
         
         res.status(400).send(e.message)
     }

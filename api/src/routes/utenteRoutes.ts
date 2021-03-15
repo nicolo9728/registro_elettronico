@@ -1,7 +1,7 @@
 import { compare, genSalt, hash } from "bcrypt";
 import { Router } from "express";
 import { sign } from "jsonwebtoken";
-import { Utilita } from "../Database";
+import { Pool } from "pg";
 import { controlloLoggato } from "../middleware/controlloLoggato";
 
 export const utenteRoutes = Router()
@@ -10,7 +10,7 @@ utenteRoutes.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const ris = await Utilita.db.query("SELECT * from Utenti where username = $1", [username])
+        const ris = await new Pool().query("SELECT * from Utenti where username = $1", [username])
 
         if (ris.rowCount == 0)
             throw new Error("username non valido")
@@ -19,7 +19,7 @@ utenteRoutes.post("/login", async (req, res) => {
         const utente = ris.rows[0]
 
         if (await compare(password, utente.password)) {
-            const token = sign(utente.username, Utilita.password)
+            const token = sign(utente.username, <string>process.env.JWTPASSWORD)
             res.status(200).send(token)
         }
         else
@@ -38,7 +38,7 @@ utenteRoutes.get("/:tipo", controlloLoggato, async (req, res) => {
         if (tipo != "Docente" && tipo != "Studente")
             throw new Error("tipo non valido");
 
-        const risultato = await Utilita.db.query(`select username, nome, cognome, dataNascita from ${tipo == "Docente" ? "Docenti" : "Studenti"} inner join Utenti on(id${tipo} = matricola) where id${tipo}=$1`, [id])
+        const risultato = await new Pool().query(`select username, nome, cognome, dataNascita from ${tipo == "Docente" ? "Docenti" : "Studenti"} inner join Utenti on(id${tipo} = matricola) where id${tipo}=$1`, [id])
         const utente = risultato.rows[0];
 
         if (risultato.rowCount != 0)
@@ -59,7 +59,7 @@ utenteRoutes.post("/aggiornaPassword", controlloLoggato, async (req, res) => {
 
         const salt = await genSalt()
         nuovaPassword = await hash(nuovaPassword, salt)
-        await Utilita.db.query(`UPDATE Utenti SET password = $1 where matricola=$2`, [nuovaPassword, matricola])
+        await new Pool().query(`UPDATE Utenti SET password = $1 where matricola=$2`, [nuovaPassword, matricola])
 
         res.status(200).send("password modificata con successo");
     }

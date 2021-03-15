@@ -1,5 +1,6 @@
+
+import { config } from "dotenv"
 import express from "express"
-import { Utilita } from "./Database"
 import { docenteRoutes } from "./routes/docenteRoutes"
 import { materieRoutes } from "./routes/materieRoutes"
 import { studenteRoutes } from "./routes/studenteRoutes"
@@ -8,12 +9,7 @@ const app = express()
 const porta = 5000
 
 app.use(express.json())
-
-
-Utilita.db.connect()
-    .then(()=>console.log("database collegato con successo"))
-    .catch((err)=>console.log(`impossibile collegarsi al db: ${err.message}`))
-
+config()
 
 app.use("/utenti/",utenteRoutes)
 app.use("/docenti/", docenteRoutes)

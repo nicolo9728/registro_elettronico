@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Utilita } from "../Database";
+import { Pool } from "pg";
 import { controlloDocente } from "../middleware/controlloDocente";
 import { controlloLoggato } from "../middleware/controlloLoggato";
 
@@ -7,7 +7,7 @@ export const materieRoutes = Router()
 
 materieRoutes.get("/", async (req, res)=>{
     try{
-        const materie = await Utilita.db.query("SELECT * FROM Materie");
+        const materie = await new Pool().query("SELECT * FROM Materie");
 
         res.status(200).json(materie.rows);
     }
@@ -20,7 +20,7 @@ materieRoutes.get("/insegnate", controlloLoggato, controlloDocente, async (req, 
     const matricola = req.body.utenteLoggato.matricola
 
     try{
-        const materieInsegnate = await Utilita.db.query(`SELECT nomeMateria, descrizione from Competenze natural join Materie where idDocente=${matricola}`)
+        const materieInsegnate = await new Pool().query(`SELECT nomeMateria, descrizione from Competenze natural join Materie where idDocente=${matricola}`)
         res.status(200).json(materieInsegnate.rows)
     }
     catch(e){

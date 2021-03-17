@@ -100,3 +100,19 @@ adminsRoutes.post("/", controlloLoggato, controlloAdmin ,async (req, res)=>{
         res.status(400).send("dati non validi o username gia usato")
     }
 })
+
+adminsRoutes.get("/dati/:tabella", controlloLoggato, controlloAdmin, async (req ,res)=>{
+    const tipo = req.params.tabella;
+
+    try{
+        if(tipo != "docenti" && tipo != "studenti" && tipo != "materie")
+            throw new Error("dati non validi")
+
+        const ris = await new Pool().query(`Select * from ${tipo}`)
+        
+        res.status(200).json(ris.rows)
+    }
+    catch(e){
+        res.status(400).send("dati non validi")
+    }
+})

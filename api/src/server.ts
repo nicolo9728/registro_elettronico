@@ -1,6 +1,7 @@
 
 import { config } from "dotenv"
 import express from "express"
+import { adminsRoutes } from "./routes/adminsRoutes"
 import { docenteRoutes } from "./routes/docenteRoutes"
 import { materieRoutes } from "./routes/materieRoutes"
 import { studenteRoutes } from "./routes/studenteRoutes"
@@ -15,5 +16,6 @@ app.use("/utenti/",utenteRoutes)
 app.use("/docenti/", docenteRoutes)
 app.use("/studenti/", studenteRoutes)
 app.use("/materie/", materieRoutes)
+app.use("/admins/", adminsRoutes)
 
 app.listen(porta, ()=>console.log(`server aperto sulla porta ${porta}`))

@@ -1,4 +1,3 @@
-
 import { config } from "dotenv"
 import express from "express"
 import { adminsRoutes } from "./routes/adminsRoutes"
@@ -6,6 +5,8 @@ import { docenteRoutes } from "./routes/docenteRoutes"
 import { materieRoutes } from "./routes/materieRoutes"
 import { studenteRoutes } from "./routes/studenteRoutes"
 import { utenteRoutes } from "./routes/utenteRoutes"
+
+
 const app = express()
 const porta = 5000
 

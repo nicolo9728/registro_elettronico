@@ -1,6 +1,4 @@
-import { genSalt, hash } from "bcrypt";
 import { Router } from "express";
-import { sign } from "jsonwebtoken";
 import { Pool } from "pg";
 import { controlloDocente } from "../middleware/controlloDocente";
 import { controlloLoggato } from "../middleware/controlloLoggato";

@@ -5,7 +5,7 @@ import { controlloStudente } from "../middleware/controlloStudente";
 
 export const studenteRoutes = Router()
 
-studenteRoutes.get("/voti", controlloLoggato, controlloStudente, async (req ,res)=>{
+studenteRoutes.get("/voti", controlloLoggato, async (req ,res)=>{
     const matricola = req.body.utenteLoggato.matricola
 
     try{

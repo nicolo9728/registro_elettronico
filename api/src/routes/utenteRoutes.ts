@@ -35,11 +35,28 @@ utenteRoutes.get("/:tipo", controlloLoggato, async (req, res) => {
     const id = req.body.utenteLoggato.matricola;
 
     try {
-        if (tipo != "Docente" && tipo != "Studente")
+        if (tipo != "Docente" && tipo != "Studente" && tipo != "Admin")
             throw new Error("tipo non valido");
+        
+        const pool = new Pool()
 
-        const risultato = await new Pool().query(`select username, nome, cognome, dataNascita from ${tipo == "Docente" ? "Docenti" : "Studenti"} inner join Utenti on(id${tipo} = matricola) where id${tipo}=$1`, [id])
+        const risultato = await pool.query(`select matricola, username, nome, cognome, dataNascita from ${tipo == "Docente" ? "Docenti" : "Studenti"} inner join Utenti on(id${tipo} = matricola) where id${tipo}=$1`, [id])
         const utente = risultato.rows[0];
+
+        if(!utente)
+            throw new Error("utente non trovato")
+
+        if(tipo == "Docente"){
+            const materieInsegnate = (await pool.query("select nomeMateria as nome, descrizione from Docenti natural join competenze natural join materie where idDocente=$1", [utente.matricola])).rows
+            const classi = (await pool.query("select idClasse, anno || sezione as nome from Docenti natural join insegnamenti natural join classi where idDocente=$1", [utente.matricola])).rows
+            utente.materie = materieInsegnate
+            utente.classi = classi
+        }
+
+        if(tipo == "Studente"){
+            const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti")).rows
+            utente.voti = voti
+        }
 
         if (risultato.rowCount != 0)
             res.status(200).json(utente)

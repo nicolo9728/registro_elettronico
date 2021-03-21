@@ -9,7 +9,7 @@ studenteRoutes.get("/voti", controlloLoggato, controlloStudente, async (req ,res
     const matricola = req.body.utenteLoggato.matricola
 
     try{
-        const ris = await new Pool().query("SELECT valutazione, data, nomeMateria, nome as nomeDocente FROM VOTI natural join Docenti where idStudente=$1", [matricola])
+        const ris = await new Pool().query("SELECT valutazione, data, nomeMateria, descrizione, nome as nomeDocente FROM VOTI natural join Docenti where idStudente=$1", [matricola])
         res.status(200).send(ris.rows)
     }
     catch(e){

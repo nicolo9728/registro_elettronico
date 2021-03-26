@@ -48,4 +48,9 @@ class Voto {
   }
 
   String get nomeDocente => _nomeDocente;
+
+  factory Voto.fromData(Map<String, dynamic> data) {
+    Voto v = new Voto(data["valutazione"], data["nomeMateria"], data["descrizione"], data["data"]);
+    return v;
+  }
 }

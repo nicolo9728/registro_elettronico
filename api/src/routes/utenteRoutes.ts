@@ -30,38 +30,45 @@ utenteRoutes.post("/login", async (req, res) => {
     }
 })
 
-utenteRoutes.get("/:tipo", controlloLoggato, async (req, res) => {
-    const tipo = req.params.tipo;
+utenteRoutes.get("/", controlloLoggato, async (req, res) => {
     const id = req.body.utenteLoggato.matricola;
 
     try {
-        if (tipo != "Docente" && tipo != "Studente" && tipo != "Admin")
-            throw new Error("tipo non valido");
         
         const pool = new Pool()
 
-        const risultato = await pool.query(`select matricola, username, nome, cognome, dataNascita from ${tipo == "Docente" ? "Docenti" : "Studenti"} inner join Utenti on(id${tipo} = matricola) where id${tipo}=$1`, [id])
-        const utente = risultato.rows[0];
+        const risultato = await pool.query(`select matricola, username, tipo from Utenti where matricola=$1`, [id]);
+        let utente = risultato.rows[0];
 
         if(!utente)
             throw new Error("utente non trovato")
 
-        if(tipo == "Docente"){
+        if(utente.tipo == "Docente"){
+            const dati = await pool.query("select * from Docenti where idDocente=$1", [id])
             const materieInsegnate = (await pool.query("select nomeMateria as nome, descrizione from Docenti natural join competenze natural join materie where idDocente=$1", [utente.matricola])).rows
             const classi = (await pool.query("select idClasse, anno || sezione as nome from Docenti natural join insegnamenti natural join classi where idDocente=$1", [utente.matricola])).rows
+            utente = {
+                ...utente,
+                ...dati.rows[0]
+            }
             utente.materie = materieInsegnate
             utente.classi = classi
         }
 
-        if(tipo == "Studente"){
+        if(utente.tipo == "Studente"){
+            const dati = await pool.query("select * from Docenti where idStudente=$1", [id]);
             const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti")).rows
+            utente = {
+                ...utente,
+                ...dati.rows[0]
+            }
             utente.voti = voti
         }
 
         if (risultato.rowCount != 0)
             res.status(200).json(utente)
         else
-            throw new Error(`dati non trovati, forse non è un ${tipo}`);
+            throw new Error(`dati non trovati`);
     }
     catch (e) {
         res.status(400).send(e.message);

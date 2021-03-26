@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:registro/models/Utente.dart';
 
 class HttpRequest {
-  static Map<String, String> get _header => {"Authorization": Utente.utenteLoggato?.token ?? "", "Content-Type": "application/json"};
+  static Map<String, String> get _header => {"Authorization": Utente.token ?? "", "Content-Type": "application/json"};
   static final String DOMINIO = "http://192.168.1.148:5000";
 
   static Future<String> get(String url) async {

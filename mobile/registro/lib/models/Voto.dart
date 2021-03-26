@@ -30,7 +30,6 @@ class Voto {
       throw new ArgumentError("data non valida");
   }
 
-  //to-do: controllo se il docente insegna effetivamente quella materia
   String get nomeMateria => _nomeMateria;
   set nomeMateria(String nomeMateria) {
     if (nomeMateria.isNotEmpty)
@@ -50,7 +49,7 @@ class Voto {
   String get nomeDocente => _nomeDocente;
 
   factory Voto.fromData(Map<String, dynamic> data) {
-    Voto v = new Voto(data["valutazione"], data["nomeMateria"], data["descrizione"], data["data"]);
+    Voto v = new Voto(data["valutazione"], data["nomemateria"], data["descrizione"], data["data"]);
     return v;
   }
 }

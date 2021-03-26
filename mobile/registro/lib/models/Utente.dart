@@ -7,6 +7,7 @@ import 'package:registro/models/Studente.dart';
 
 abstract class Utente {
   String _username, _nome, _cognome;
+  int _matricola;
   DateTime _dataNascita;
 
   static String _token;
@@ -16,14 +17,16 @@ abstract class Utente {
   String get cognome => _cognome;
   DateTime get dataNascita => _dataNascita;
   String get username => _username;
+  int get matricola => _matricola;
 
   static String get token => _token;
 
-  Utente(String username, String nome, String cognome, DateTime dataNascita) {
-    this._cognome = cognome;
-    this._nome = nome;
-    this._dataNascita = dataNascita;
-    this._username = username;
+  Utente(Map<String, dynamic> data) {
+    this._cognome = data["cognome"];
+    this._nome = data["nome"];
+    this._dataNascita = data["datanascita"];
+    this._username = data["username"];
+    this._matricola = data["matricola"];
   }
 
   static Future<void> login(String username, String password) async {

@@ -14,6 +14,8 @@ class Studente extends Utente {
     });
   }
 
+  int get numeroVoti => _voti.length;
+
   Future<void> aggiornaVoti() async {
     Map<String, dynamic> data = jsonDecode(await HttpRequest.get("studenti/voti"));
     _voti.clear();

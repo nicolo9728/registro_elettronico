@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 class Voto {
   int _valutazione;
   DateTime _data;
@@ -52,4 +55,37 @@ class Voto {
     Voto v = new Voto(data["valutazione"], data["nomemateria"], data["descrizione"], DateTime.parse(data["data"]));
     return v;
   }
+
+  Widget toWidget() => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: Row(
+          children: [
+            SizedBox(
+              height: 60,
+              width: 60,
+              child: CircleAvatar(
+                backgroundColor: valutazione >= 6 ? Colors.green[800] : Colors.red,
+                child: Text(
+                  valutazione.toString(),
+                  style: TextStyle(fontSize: 25),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  nomeMateria,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Text(descrizione),
+                Text(data.toString())
+              ],
+            )
+          ],
+        ),
+      );
 }

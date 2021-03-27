@@ -1,10 +1,11 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:registro/models/HttpRequest.dart';
 import 'package:registro/models/Utente.dart';
 import 'package:registro/models/Voto.dart';
 
-class Studente extends Utente {
+class Studente extends Utente with IterableMixin<Voto> {
   List<Voto> _voti = [];
 
   Studente(Map<String, dynamic> data) : super(data) {
@@ -26,4 +27,7 @@ class Studente extends Utente {
   }
 
   Voto operator [](int index) => _voti[index];
+
+  @override
+  Iterator<Voto> get iterator => _voti.iterator;
 }

@@ -49,7 +49,7 @@ class Voto {
   String get nomeDocente => _nomeDocente;
 
   factory Voto.fromData(Map<String, dynamic> data) {
-    Voto v = new Voto(data["valutazione"], data["nomemateria"], data["descrizione"], data["data"]);
+    Voto v = new Voto(data["valutazione"], data["nomemateria"], data["descrizione"], DateTime.parse(data["data"]));
     return v;
   }
 }

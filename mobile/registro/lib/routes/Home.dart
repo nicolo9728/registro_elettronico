@@ -9,16 +9,7 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Text("registro elettronico"),
       ),
-      body: Center(
-        child: FutureBuilder(
-          future: Utente.autenticazione(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) return Text("successo");
-            if (snapshot.hasError) return Text(snapshot.error.toString());
-            return Text("caricamento");
-          },
-        ),
-      ),
+      body: Center(child: Container()),
     );
   }
 }

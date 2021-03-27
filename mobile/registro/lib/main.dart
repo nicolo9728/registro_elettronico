@@ -10,7 +10,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Home(),
-      themeMode: ThemeMode.dark,
+      theme: ThemeData(
+        scaffoldBackgroundColor: Color.fromARGB(255, 30, 33, 43),
+        appBarTheme: AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
+        textTheme: TextTheme(bodyText2: TextStyle(color: Colors.white60), headline1: TextStyle(color: Colors.white60)),
+      ),
     );
   }
 }

@@ -15,7 +15,6 @@ class Home extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) return Text("successo");
             if (snapshot.hasError) return Text(snapshot.error.toString());
-
             return Text("caricamento");
           },
         ),

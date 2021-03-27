@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:path_provider/path_provider.dart';
 import 'package:registro/models/Docente.dart';
 import 'package:registro/models/HttpRequest.dart';
 import 'package:registro/models/Studente.dart';
@@ -24,9 +25,15 @@ abstract class Utente {
   Utente(Map<String, dynamic> data) {
     this._cognome = data["cognome"];
     this._nome = data["nome"];
-    this._dataNascita = data["datanascita"];
+    this._dataNascita = DateTime.parse(data["datanascita"]);
     this._username = data["username"];
     this._matricola = data["matricola"];
+  }
+
+  static Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
   }
 
   static Future<void> login(String username, String password) async {
@@ -44,8 +51,9 @@ abstract class Utente {
       utenteLoggato = new Studente(data);
   }
 
-  static void salvaToken() async {
-    File file = new File("token");
+  static Future<void> salvaToken() async {
+    String localPath = await _localPath;
+    File file = new File("$localPath/token");
 
     if (!(await file.exists())) await file.create();
 
@@ -54,8 +62,8 @@ abstract class Utente {
 
   static Future<bool> autenticazione() async {
     bool successo = true;
-
-    File file = new File("token");
+    String localPath = await _localPath;
+    File file = new File("$localPath/token");
     if (!(await file.exists())) successo = false;
 
     if (successo) _token = await file.readAsString();
@@ -64,6 +72,8 @@ abstract class Utente {
 
     return successo;
   }
+
+  static get loggato => token != null;
 
   static void logout() async {
     File file = new File("token");

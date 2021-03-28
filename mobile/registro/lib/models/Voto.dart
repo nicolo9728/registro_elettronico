@@ -59,6 +59,8 @@ class Voto {
   Widget toWidget() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               height: 60,

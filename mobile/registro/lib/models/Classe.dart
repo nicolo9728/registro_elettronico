@@ -7,24 +7,25 @@ import 'package:registro/models/Studente.dart';
 
 class Classe with IterableMixin<Studente> {
   String _nome;
-  String _id;
+  int _id;
   List<Studente> _studenti;
 
   Classe(Map<String, dynamic> data) {
     _nome = data["nome"];
-    _id = data["idClasse"];
+    _id = data["idclasse"];
     _studenti = [];
   }
 
   String get nome => _nome;
   int get numeroStudenti => _studenti.length;
 
-  operator [](int index) => _studenti[index];
+  Studente operator [](int index) => _studenti[index];
 
   Future<void> scaricaStudenti() async {
-    Map<String, dynamic> data = jsonDecode(await HttpRequest.get("/docenti/ottieniStudenti?idClasse=$_id"));
-    (data as List).forEach((studentiData) {
-      _studenti.add(new Studente(studentiData));
+    List data = jsonDecode(await HttpRequest.get("/docenti/ottieniStudenti?idClasse=$_id"));
+
+    data.forEach((element) {
+      _studenti.add(new Studente(element as Map<String, dynamic>));
     });
   }
 

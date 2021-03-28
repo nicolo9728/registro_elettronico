@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:registro/models/Classe.dart';
 import 'package:registro/models/Docente.dart';
+import 'package:registro/models/Studente.dart';
 import 'package:registro/models/Utente.dart';
+import 'AggiungiVoto.dart';
 
 class DocenteHome extends StatefulWidget {
   @override
@@ -9,7 +12,7 @@ class DocenteHome extends StatefulWidget {
 }
 
 class _DocenteHomeState extends State<DocenteHome> {
-  final Docente _docente = Utente.utenteLoggato;
+  Docente _docente = Utente.utenteLoggato;
   Classe _classeSelezionata;
 
   @override
@@ -18,8 +21,61 @@ class _DocenteHomeState extends State<DocenteHome> {
         appBar: AppBar(
           title: Text(_docente.username),
         ),
-        body: Column(
-          children: [],
+        body: Padding(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Classe",
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(color: Colors.white60, borderRadius: BorderRadius.circular(10)),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: DropdownButton<Classe>(
+                      isDense: false,
+                      items: _docente
+                          .map((classe) => DropdownMenuItem<Classe>(
+                              value: classe,
+                              child: Text(
+                                classe.nome,
+                                style: TextStyle(fontSize: 20),
+                              )))
+                          .toList(),
+                      onChanged: (value) async {
+                        await value.scaricaStudenti();
+                        print(value[0].nome);
+                        setState(() {
+                          _classeSelezionata = value;
+                        });
+                      },
+                      value: _classeSelezionata,
+                      iconEnabledColor: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: _classeSelezionata?.numeroStudenti ?? 0,
+                      itemBuilder: (context, index) => InkWell(
+                            child: _classeSelezionata[index].toWidget(),
+                            onTap: () {
+                              Studente studente = _classeSelezionata[index];
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => AggiungiVoto(
+                                        studente: studente,
+                                      ));
+                            },
+                          )))
+            ],
+          ),
         ));
   }
 }

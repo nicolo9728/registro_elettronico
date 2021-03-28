@@ -57,7 +57,7 @@ utenteRoutes.get("/", controlloLoggato, async (req, res) => {
 
         if(utente.tipo == "Studente"){
             const dati = await pool.query("select * from Studenti where idStudente=$1", [id]);
-            const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti")).rows
+            const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti where idStudente=$1", [id])).rows
             utente = {
                 ...utente,
                 ...dati.rows[0]

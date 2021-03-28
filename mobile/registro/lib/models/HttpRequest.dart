@@ -7,7 +7,6 @@ class HttpRequest {
 
   static Future<String> get(String url) async {
     http.Response response = await http.get(Uri.parse(DOMINIO + url), headers: _header);
-
     if (response.statusCode == 400 || response.statusCode == 500)
       throw new Exception(response.body);
     else

@@ -29,7 +29,7 @@ docenteRoutes.post("/aggiungiVoto", controlloLoggato, controlloDocente, async (r
 docenteRoutes.get("/ottieniStudenti", controlloLoggato, controlloDocente, async (req, res) => {
     const matricola = req.body.utenteLoggato.matricola;
     const idClasse = req.query.idClasse;
-
+    console.log(req.query)
     const pool = new Pool()
     try {
         const docentiDellaClasse = (await pool.query("select idDocente from insegnamenti where idClasse=$1", [idClasse]))
@@ -46,4 +46,24 @@ docenteRoutes.get("/ottieniStudenti", controlloLoggato, controlloDocente, async 
     catch (e) {
         res.status(400).send(e.message)
     }
+})
+
+docenteRoutes.get("/ottieniVoti", controlloLoggato, controlloDocente, async (req, res)=>{
+    const matricola = req.body.utenteLoggato.matricola;
+    const idStudente = parseInt(req.query.idStudente as string);
+    const pool = new Pool();
+    try{
+        const ris = await pool.query("select idStudente from Studenti natural join Classi natural join Insegnamenti inner join Docenti on (Docenti.idDocente = Insegnamenti.idDocente) where Docenti.idDocente = $1", [matricola]);
+        const studenti = ris.rows.map((data)=> data = data.idstudente);
+
+        if(!studenti.includes(idStudente))
+            throw new Error("il docente non insegna a questo studente")
+        
+        const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti where idStudente=$1", [idStudente])).rows
+        res.status(200).json(voti)
+    }
+    catch(e){
+        res.status(400).send(e.message)
+    }
+
 })

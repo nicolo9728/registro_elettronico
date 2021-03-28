@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:registro/models/Docente.dart';
 import 'package:registro/models/Studente.dart';
@@ -41,13 +43,16 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
                   List<Voto> voti = snapshot.data;
                   return Container(
                     height: 100,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: voti.length,
-                      itemBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Wrap(
-                          children: [voti[index].toWidget()],
+                    alignment: Alignment.center,
+                    child: Center(
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: voti.length,
+                        itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Wrap(
+                            children: [voti[index].toWidget()],
+                          ),
                         ),
                       ),
                     ),
@@ -56,7 +61,10 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
                   return Expanded(child: Caricamento());
               },
             ),
-            Text("Inserisci il dati")
+            Text(
+              "Aggiungi voto",
+              style: TextStyle(fontSize: 30),
+            ),
           ],
         ),
       ),

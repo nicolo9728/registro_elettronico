@@ -24,6 +24,7 @@ class Classe with IterableMixin<Studente> {
   Future<void> scaricaStudenti() async {
     List data = jsonDecode(await HttpRequest.get("/docenti/ottieniStudenti?idClasse=$_id"));
 
+    _studenti.clear();
     data.forEach((element) {
       _studenti.add(new Studente(element as Map<String, dynamic>));
     });

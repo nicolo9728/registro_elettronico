@@ -39,6 +39,7 @@ class _DocenteHomeState extends State<DocenteHome> {
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: DropdownButton<Classe>(
                       isDense: false,
+                      hint: Text("sez."),
                       items: _docente
                           .map((classe) => DropdownMenuItem<Classe>(
                               value: classe,
@@ -49,7 +50,6 @@ class _DocenteHomeState extends State<DocenteHome> {
                           .toList(),
                       onChanged: (value) async {
                         await value.scaricaStudenti();
-                        print(value[0].nome);
                         setState(() {
                           _classeSelezionata = value;
                         });

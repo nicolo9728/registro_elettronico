@@ -133,6 +133,7 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
                         _txtDescrizione.text,
                       );
                       await utenteLoggato.caricaVoto(studente, voto);
+                      Navigator.pop(context);
                     } catch (e) {
                       showDialog(
                           context: context,

@@ -50,7 +50,6 @@ class _DocenteHomeState extends State<DocenteHome> {
                           .toList(),
                       onChanged: (value) async {
                         await value.scaricaStudenti();
-                        print(value[0].nome);
                         setState(() {
                           _classeSelezionata = value;
                         });

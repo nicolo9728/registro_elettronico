@@ -26,7 +26,8 @@ class App extends StatelessWidget {
               style: ButtonStyle(
                   shadowColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
                   textStyle: MaterialStateProperty.resolveWith((states) => TextStyle(color: Colors.black)),
-                  backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white70)))),
+                  backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white70))),
+          hintColor: Colors.white60),
     );
   }
 }

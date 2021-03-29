@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Voto {
   int _valutazione;
   DateTime _data;
-  String _nomeMateria, _descrizione, _nomeDocente;
+  String _nomeMateria, _descrizione;
 
   Voto(int valutazione, String nomeMateria, String descrizione, DateTime data) {
     this.data = data;
@@ -49,8 +49,6 @@ class Voto {
       throw new ArgumentError("la descrizione non puo superare i 50 caratteri");
   }
 
-  String get nomeDocente => _nomeDocente;
-
   factory Voto.fromData(Map<String, dynamic> data) {
     Voto v = new Voto(data["valutazione"], data["nomemateria"], data["descrizione"], DateTime.parse(data["data"]));
     return v;
@@ -84,7 +82,7 @@ class Voto {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 Text(descrizione),
-                Text(data.toString())
+                Text(data.toLocal().toString())
               ],
             )
           ],

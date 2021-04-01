@@ -28,7 +28,7 @@ class Voto {
   DateTime get data => _data;
   set data(DateTime data) {
     if (data.compareTo(DateTime.now()) <= 0)
-      _data = data;
+      _data = data.toLocal();
     else
       throw new ArgumentError("data non valida");
   }
@@ -82,7 +82,7 @@ class Voto {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 Text(descrizione),
-                Text(data.toLocal().toString())
+                Text("${data.day}/${data.month}/${data.year}")
               ],
             )
           ],

@@ -33,6 +33,13 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
       setState(() {
         _voti = value;
       });
+    }).catchError((error) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("errore"),
+                content: Text(error.toString()),
+              ));
     });
   }
 

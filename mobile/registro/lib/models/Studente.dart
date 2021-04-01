@@ -39,10 +39,8 @@ class Studente extends Utente with IterableMixin<Voto> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.account_circle,
-              size: 50,
-              color: Colors.white60,
+            CircleAvatar(
+              child: Text("${nome[0].toUpperCase()}${cognome[0].toUpperCase()}"),
             ),
             SizedBox(width: 20),
             Column(
@@ -52,7 +50,7 @@ class Studente extends Utente with IterableMixin<Voto> {
                   "$nome $cognome",
                   style: TextStyle(fontSize: 20),
                 ),
-                Text("$dataNascita")
+                Text("${dataNascita.day}/${dataNascita.month}/${dataNascita.year}")
               ],
             )
           ],

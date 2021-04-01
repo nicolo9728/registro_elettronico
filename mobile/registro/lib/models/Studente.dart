@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:registro/models/HttpRequest.dart';
 import 'package:registro/models/Utente.dart';
 import 'package:registro/models/Voto.dart';
+import 'package:registro/views/StudenteProfilo.dart';
 
 class Studente extends Utente with IterableMixin<Voto> {
   List<Voto> _voti = [];
@@ -32,28 +33,11 @@ class Studente extends Utente with IterableMixin<Voto> {
   Voto operator [](int index) => _voti[index];
 
   @override
+  Widget get profilo => StudenteProfilo();
+
+  @override
   Iterator<Voto> get iterator => _voti.iterator;
 
-  Widget toWidget() => Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              child: Text("${nome[0].toUpperCase()}${cognome[0].toUpperCase()}"),
-            ),
-            SizedBox(width: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "$nome $cognome",
-                  style: TextStyle(fontSize: 20),
-                ),
-                Text("${dataNascita.day}/${dataNascita.month}/${dataNascita.year}")
-              ],
-            )
-          ],
-        ),
-      );
+  @override
+  String toString() => "$username (Studente)";
 }

@@ -3,9 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:registro/models/HttpRequest.dart';
+import 'package:registro/models/IParametro.dart';
 import 'package:registro/models/Studente.dart';
 
-class Classe with IterableMixin<Studente> {
+class Classe with IterableMixin<Studente> implements IParametro {
   String _nome;
   int _id;
   List<Studente> _studenti;
@@ -45,4 +46,7 @@ class Classe with IterableMixin<Studente> {
 
   @override
   Iterator<Studente> get iterator => _studenti.iterator;
+
+  @override
+  String get titolo => _nome;
 }

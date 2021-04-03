@@ -7,10 +7,12 @@ class StudenteHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _studente.numeroVoti,
-      itemBuilder: (context, index) => _studente[index].toWidget(),
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+    return Container(
+      child: ListView.builder(
+        itemCount: _studente.numeroVoti,
+        itemBuilder: (context, index) => _studente[index].toWidget(),
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      ),
     );
   }
 }

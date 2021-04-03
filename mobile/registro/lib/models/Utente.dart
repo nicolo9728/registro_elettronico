@@ -77,9 +77,12 @@ abstract class Utente {
 
   static get loggato => token != null;
 
-  static void logout() async {
-    File file = new File("token");
+  static Future<void> logout() async {
+    String localPath = await _localPath;
+    File file = new File("$localPath/token");
     await file.delete();
+    _token = null;
+    utenteLoggato = null;
   }
 
   Widget get profilo;

@@ -30,10 +30,18 @@ class Studente extends Utente with IterableMixin<Voto> {
     });
   }
 
+  double get media {
+    double media = 0;
+    _voti.forEach((voto) => media += voto.valutazione);
+    return media / _voti.length;
+  }
+
   Voto operator [](int index) => _voti[index];
 
   @override
-  Widget get profilo => StudenteProfilo();
+  Widget get profilo => StudenteProfilo(
+        profilo: this,
+      );
 
   @override
   Iterator<Voto> get iterator => _voti.iterator;

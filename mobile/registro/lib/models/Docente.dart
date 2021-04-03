@@ -1,12 +1,15 @@
 import 'dart:collection';
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:registro/models/Classe.dart';
 import 'package:registro/models/HttpRequest.dart';
 import 'package:registro/models/Materia.dart';
 import 'package:registro/models/Studente.dart';
 import 'package:registro/models/Utente.dart';
 import 'package:registro/models/Voto.dart';
+import 'package:registro/views/DocenteProfilo.dart';
 
 class Docente extends Utente with IterableMixin<Classe> {
   List<Classe> _classi;
@@ -52,4 +55,12 @@ class Docente extends Utente with IterableMixin<Classe> {
 
   @override
   Iterator<Classe> get iterator => _classi.iterator;
+
+  @override
+  Widget get profilo => DocenteProfilo(
+        docente: this,
+      );
+
+  @override
+  String toString() => "$username (Docente)";
 }

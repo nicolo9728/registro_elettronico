@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:registro/views/VotoWidget.dart';
 
 class Voto {
   int _valutazione;
@@ -54,38 +55,5 @@ class Voto {
     return v;
   }
 
-  Widget toWidget() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 60,
-              width: 60,
-              child: CircleAvatar(
-                backgroundColor: valutazione >= 6 ? Colors.green[800] : Colors.red,
-                child: Text(
-                  valutazione.toString(),
-                  style: TextStyle(fontSize: 25),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  nomeMateria,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                Text(descrizione),
-                Text("${data.day}/${data.month}/${data.year}")
-              ],
-            )
-          ],
-        ),
-      );
+  Widget toWidget() => VotoWidget(voto: this);
 }

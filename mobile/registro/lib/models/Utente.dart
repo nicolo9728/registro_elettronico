@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:registro/models/Docente.dart';
 import 'package:registro/models/HttpRequest.dart';
@@ -75,8 +77,16 @@ abstract class Utente {
 
   static get loggato => token != null;
 
-  static void logout() async {
-    File file = new File("token");
+  static Future<void> logout() async {
+    String localPath = await _localPath;
+    File file = new File("$localPath/token");
     await file.delete();
+    _token = null;
+    utenteLoggato = null;
   }
+
+  Widget get profilo;
+
+  @override
+  String toString() => "$username";
 }

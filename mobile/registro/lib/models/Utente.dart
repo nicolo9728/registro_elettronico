@@ -21,6 +21,7 @@ abstract class Utente {
   DateTime get dataNascita => _dataNascita;
   String get username => _username;
   int get matricola => _matricola;
+  Widget get home;
 
   static String get token => _token;
 

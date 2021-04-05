@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:registro/models/HttpRequest.dart';
 import 'package:registro/models/Utente.dart';
 import 'package:registro/models/Voto.dart';
+import 'package:registro/routes/StudenteHome.dart';
 import 'package:registro/views/StudenteProfilo.dart';
 
 class Studente extends Utente with IterableMixin<Voto> {
@@ -20,6 +21,9 @@ class Studente extends Utente with IterableMixin<Voto> {
   }
 
   int get numeroVoti => _voti.length;
+
+  @override
+  Widget get home => StudenteHome();
 
   Future<void> aggiornaVoti() async {
     List data = jsonDecode(await HttpRequest.get("/studenti/voti"));

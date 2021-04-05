@@ -14,12 +14,16 @@ class _HomeState extends State<Home> {
   Utente _utente = Utente.utenteLoggato;
   int _index = 0;
 
-  List<Widget> routes = [
-    Utente.utenteLoggato.runtimeType == Docente ? DocenteHome() : StudenteHome(),
-    Profilo(
-      utente: Utente.utenteLoggato,
-    )
-  ];
+  List<Widget> routes;
+
+  _HomeState() {
+    this.routes = [
+      _utente.home,
+      Profilo(
+        utente: Utente.utenteLoggato,
+      )
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

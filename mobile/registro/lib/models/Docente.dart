@@ -9,6 +9,7 @@ import 'package:registro/models/Materia.dart';
 import 'package:registro/models/Studente.dart';
 import 'package:registro/models/Utente.dart';
 import 'package:registro/models/Voto.dart';
+import 'package:registro/routes/DocenteHome.dart';
 import 'package:registro/views/DocenteProfilo.dart';
 
 class Docente extends Utente with IterableMixin<Classe> {
@@ -52,6 +53,9 @@ class Docente extends Utente with IterableMixin<Classe> {
           "descrizione": voto.descrizione
         }));
   }
+
+  @override
+  Widget get home => DocenteHome();
 
   @override
   Iterator<Classe> get iterator => _classi.iterator;

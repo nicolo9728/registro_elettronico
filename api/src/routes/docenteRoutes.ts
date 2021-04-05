@@ -29,14 +29,11 @@ docenteRoutes.post("/aggiungiVoto", controlloLoggato, controlloDocente, async (r
 docenteRoutes.get("/ottieniStudenti", controlloLoggato, controlloDocente, async (req, res) => {
     const matricola = req.body.utenteLoggato.matricola;
     const idClasse = req.query.idClasse;
-    console.log(req.query)
     const pool = new Pool()
     try {
-        const docentiDellaClasse = (await pool.query("select idDocente from insegnamenti where idClasse=$1", [idClasse]))
-            .rows
-            .map((ris) => ris = ris.iddocente)
+        const docentiDellaClasse = (await pool.query("select 1 from insegnamenti where idClasse=$1 and idDocente=$2", [idClasse, matricola]))
 
-        if(docentiDellaClasse.includes(matricola)){
+        if(docentiDellaClasse.rowCount>0){
             const studenti = (await pool.query("select matricola, username, nome, cognome, dataNascita from Studenti inner join Utenti on (matricola=idStudente) where idClasse=$1", [idClasse])).rows
             res.status(200).json(studenti)
         }
@@ -53,14 +50,14 @@ docenteRoutes.get("/ottieniVoti", controlloLoggato, controlloDocente, async (req
     const idStudente = parseInt(req.query.idStudente as string);
     const pool = new Pool();
     try{
-        const ris = await pool.query("select idStudente from Studenti natural join Classi natural join Insegnamenti inner join Docenti on (Docenti.idDocente = Insegnamenti.idDocente) where Docenti.idDocente = $1", [matricola]);
-        const studenti = ris.rows.map((data)=> data = data.idstudente);
+        const ris = await pool.query("select 1 from Studenti natural join Classi natural join Insegnamenti where idDocente = $1 and Studenti.idStudente=$2", [matricola, idStudente]);
 
-        if(!studenti.includes(idStudente))
+        if(ris.rowCount > 0){
+            const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti where idStudente=$1", [idStudente])).rows
+            res.status(200).json(voti)
+        }
+        else
             throw new Error("il docente non insegna a questo studente")
-        
-        const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti where idStudente=$1", [idStudente])).rows
-        res.status(200).json(voti)
     }
     catch(e){
         res.status(400).send(e.message)

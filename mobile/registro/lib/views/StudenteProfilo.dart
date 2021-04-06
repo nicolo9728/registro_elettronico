@@ -12,6 +12,7 @@ class StudenteProfilo extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ProfiloGeneralita(
             utente: profilo,
@@ -21,16 +22,16 @@ class StudenteProfilo extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "media voti",
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(fontSize: 30, color: Colors.white70),
                 ),
                 Text(
                   profilo.media.toString(),
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(fontSize: 25),
                 )
               ],
             ),

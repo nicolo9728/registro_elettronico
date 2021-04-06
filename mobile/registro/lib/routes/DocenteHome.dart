@@ -57,13 +57,14 @@ class _DocenteHomeState extends State<DocenteHome> {
               ),
             ],
           ),
+          SizedBox(
+            height: 20,
+          ),
           Expanded(
               child: ListView.builder(
                   itemCount: _classeSelezionata?.numeroStudenti ?? 0,
-                  itemBuilder: (context, index) => InkWell(
-                        child: StudenteItem(
-                          studente: _classeSelezionata[index],
-                        ),
+                  itemBuilder: (context, index) => StudenteItem(
+                        studente: _classeSelezionata[index],
                         onTap: () {
                           Studente studente = _classeSelezionata[index];
                           showModalBottomSheet(

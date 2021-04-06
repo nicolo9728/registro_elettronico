@@ -12,7 +12,7 @@ class Classe with IterableMixin<Studente> implements IParametro {
   List<Studente> _studenti;
 
   Classe(Map<String, dynamic> data) {
-    _nome = data["nome"];
+    _nome = (data["nome"] as String).toUpperCase();
     _id = data["idclasse"];
     _studenti = [];
   }

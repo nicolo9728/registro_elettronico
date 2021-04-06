@@ -18,6 +18,8 @@ class Studente extends Utente with IterableMixin<Voto> {
       l.forEach((data) {
         _voti.add(Voto.fromData(data));
       });
+
+    _voti.sort((v1, v2) => v2.data.compareTo(v1.data));
   }
 
   int get numeroVoti => _voti.length;

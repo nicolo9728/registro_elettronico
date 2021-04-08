@@ -20,27 +20,36 @@ class StudenteProfilo extends StatelessWidget {
           SizedBox(
             height: 30,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "media voti",
-                  style: TextStyle(fontSize: 30, color: Colors.white70),
+          Expanded(
+            child: Center(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 60),
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color.fromARGB(255, 7, 29, 54),
                 ),
-                Text(
-                  profilo.media.toString(),
-                  style: TextStyle(fontSize: 25),
-                )
-              ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "media voti",
+                      style: TextStyle(fontSize: 40, color: Colors.white70),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      profilo.media.toString(),
+                      style: TextStyle(fontSize: 35),
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
-          Expanded(
-              child: Container(
-            alignment: Alignment.bottomCenter,
-            child: Disconnetti(),
-          ))
+          Disconnetti()
         ],
       ),
     );

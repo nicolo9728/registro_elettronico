@@ -48,7 +48,7 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.only(bottom: 50),
-        color: Color.fromARGB(255, 30, 33, 43),
+        color: Color.fromARGB(255, 7, 29, 54),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Column(

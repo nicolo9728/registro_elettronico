@@ -23,6 +23,7 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
   List<int> _votiTot = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   int _votoSelezionato;
   TextEditingController _txtDescrizione = new TextEditingController();
+  DateTime _dataSelezionata;
 
   _AggiungiVotoState(this.studente);
 
@@ -45,8 +46,14 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Color.fromARGB(255, 7, 29, 54),
+      ),
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(bottom: 50),
         color: Color.fromARGB(255, 7, 29, 54),
         child: Padding(
@@ -79,19 +86,11 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
                       child: Caricamento(),
                     ),
               SizedBox(
-                height: 20,
+                height: 50,
               ),
               Text(
                 "Aggiungi voto",
                 style: TextStyle(fontSize: 30),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                decoration: InputDecoration(hintText: "descrizione"),
-                style: TextStyle(color: Colors.white60),
-                controller: _txtDescrizione,
               ),
               SizedBox(
                 height: 20,
@@ -127,42 +126,90 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
                           _votoSelezionato = value;
                         });
                       },
-                      items: _votiTot.map((e) => DropdownMenuItem(value: e, child: Text(e.toString(), style: TextStyle(color: Colors.white60)))).toList())
+                      items: _votiTot.map((e) => DropdownMenuItem(value: e, child: Text(e.toString(), style: TextStyle(color: Colors.white60)))).toList()),
                 ],
               ),
-              SizedBox(height: 20),
-              TextButton(
-                  onPressed: () async {
-                    try {
-                      Voto voto = new Voto.creaConDataOdierna(
-                        _votoSelezionato,
-                        _materiaSelezionata?.nome ?? "",
-                        _txtDescrizione.text,
-                      );
-                      await utenteLoggato.caricaVoto(studente, voto);
-                      Navigator.pop(context);
-                    } catch (e) {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                title: Text("impossibile caricare il voto"),
-                                content: Text(e.toString()),
-                              ));
-                    }
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.add,
-                        color: Colors.black,
-                      ),
-                      Text(
-                        "aggiungi voto",
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                decoration: InputDecoration(hintText: "descrizione", hintStyle: TextStyle(fontSize: 20)),
+                style: TextStyle(color: Colors.white60),
+                controller: _txtDescrizione,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 100,
+                    child: TextFormField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                          hintText: _dataSelezionata != null ? "${_dataSelezionata.day}/${_dataSelezionata.month}/${_dataSelezionata.year}" : "data odierna"),
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () async {
+                        DateTime dataOdierna = DateTime.now();
+                        DateTime data =
+                            await showDatePicker(context: context, initialDate: dataOdierna, firstDate: DateTime(dataOdierna.year - 1), lastDate: dataOdierna);
+                        setState(() {
+                          _dataSelezionata = data;
+                        });
+                      },
+                      child: Text(
+                        "seleziona data",
                         style: TextStyle(color: Colors.black),
-                      )
-                    ],
-                  ))
+                      ))
+                ],
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  child: TextButton(
+                      onPressed: () async {
+                        try {
+                          Voto voto;
+
+                          if (_dataSelezionata != null)
+                            voto = new Voto(_votoSelezionato, _materiaSelezionata?.nome ?? "", _txtDescrizione.text, _dataSelezionata);
+                          else
+                            Voto voto = new Voto.creaConDataOdierna(
+                              _votoSelezionato,
+                              _materiaSelezionata?.nome ?? "",
+                              _txtDescrizione.text,
+                            );
+
+                          await utenteLoggato.caricaVoto(studente, voto);
+                          _voti = await utenteLoggato.ottieniVoti(studente);
+                          setState(() {});
+                        } catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text("impossibile caricare il voto"),
+                                    content: Text(e.toString()),
+                                  ));
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: Colors.black,
+                          ),
+                          Text(
+                            "aggiungi voto",
+                            style: TextStyle(color: Colors.black),
+                          )
+                        ],
+                      )),
+                ),
+              )
             ],
           ),
         ),

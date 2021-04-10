@@ -61,19 +61,25 @@ class _DocenteHomeState extends State<DocenteHome> {
             height: 20,
           ),
           Expanded(
-              child: ListView.builder(
-                  itemCount: _classeSelezionata?.numeroStudenti ?? 0,
-                  itemBuilder: (context, index) => StudenteItem(
-                        studente: _classeSelezionata[index],
-                        onTap: () {
-                          Studente studente = _classeSelezionata[index];
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) => AggiungiVoto(
-                                    studente: studente,
-                                  ));
-                        },
-                      )))
+              child: RefreshIndicator(
+            onRefresh: () async {
+              await _classeSelezionata.scaricaStudenti();
+              setState(() {});
+            },
+            child: ListView.builder(
+                itemCount: _classeSelezionata?.numeroStudenti ?? 0,
+                itemBuilder: (context, index) => StudenteItem(
+                      studente: _classeSelezionata[index],
+                      onTap: () {
+                        Studente studente = _classeSelezionata[index];
+                        showDialog(
+                            context: context,
+                            builder: (context) => AggiungiVoto(
+                                  studente: studente,
+                                ));
+                      },
+                    )),
+          ))
         ],
       ),
     );

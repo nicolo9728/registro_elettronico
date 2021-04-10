@@ -11,7 +11,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       home: Autenticazione(),
       theme: ThemeData(
-          scaffoldBackgroundColor: Color.fromARGB(255, 12, 48, 90),
+          scaffoldBackgroundColor: Color.fromARGB(255, 7, 29, 54),
           appBarTheme: AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
           textTheme: TextTheme(
               bodyText1: TextStyle(color: Colors.white60),

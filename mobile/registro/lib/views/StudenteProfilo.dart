@@ -27,7 +27,6 @@ class StudenteProfilo extends StatelessWidget {
                 height: 200,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color.fromARGB(255, 7, 29, 54),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,7 +40,7 @@ class StudenteProfilo extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      profilo.media.toString(),
+                      profilo.media.toStringAsFixed(1),
                       style: TextStyle(fontSize: 35),
                     )
                   ],

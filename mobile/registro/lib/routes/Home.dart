@@ -33,6 +33,8 @@ class _HomeState extends State<Home> {
       ),
       body: routes[_index],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color.fromARGB(255, 7, 29, 54),
+        unselectedItemColor: Colors.white70,
         items: [BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"), BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: "profilo")],
         currentIndex: _index,
         onTap: (index) {

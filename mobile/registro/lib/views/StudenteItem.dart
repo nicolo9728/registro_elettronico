@@ -12,7 +12,7 @@ class StudenteItem extends StatelessWidget {
     return Material(
       elevation: 4,
       borderRadius: BorderRadius.circular(10),
-      color: Color.fromARGB(255, 7, 29, 54),
+      color: Color.fromARGB(255, 28, 116, 217),
       child: InkWell(
         onTap: onTap,
         child: Padding(
@@ -21,7 +21,11 @@ class StudenteItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                child: Text("${studente.nome[0].toUpperCase()}${studente.cognome[0].toUpperCase()}"),
+                backgroundColor: Colors.transparent,
+                child: Text(
+                  "${studente.nome[0].toUpperCase()}${studente.cognome[0].toUpperCase()}",
+                  style: TextStyle(color: Color.fromARGB(255, 248, 248, 248)),
+                ),
               ),
               SizedBox(width: 20),
               Column(

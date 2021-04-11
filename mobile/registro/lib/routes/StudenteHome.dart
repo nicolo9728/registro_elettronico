@@ -9,7 +9,6 @@ class StudenteHome extends StatefulWidget {
 
 class _StudenteHomeState extends State<StudenteHome> {
   final Studente _studente = Utente.utenteLoggato as Studente;
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(

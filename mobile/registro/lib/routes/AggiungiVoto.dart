@@ -49,13 +49,11 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 7, 29, 54),
       ),
       resizeToAvoidBottomInset: false,
       body: Container(
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(bottom: 50),
-        color: Color.fromARGB(255, 7, 29, 54),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Column(

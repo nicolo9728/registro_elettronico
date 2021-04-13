@@ -37,14 +37,14 @@ adminsRoutes.post("/aggiungiDocente", controlloLoggato, controlloAdmin , async (
     let matricola;
 
     try {
-        const { username, password, nome, cognome, dataNascita } = req.body
+        const { username, password, nome, cognome, dataNascita, nomeSede } = req.body
 
         const salt = await genSalt()
         const passwordCriptata = await hash(password, salt)
 
         const risultato = await new Pool().query(
-            "INSERT into Utenti (username, password, tipo) values ($1, $2, 'Docente') returning matricola",
-            [username, passwordCriptata]
+            "INSERT into Utenti (username, password, tipo) values ($1, $2, 'Docente', $3) returning matricola",
+            [username, passwordCriptata, nomeSede]
         )
 
         matricola = risultato.rows[0].matricola
@@ -64,13 +64,18 @@ adminsRoutes.post("/aggiungiDocente", controlloLoggato, controlloAdmin , async (
 
 
 adminsRoutes.post("/aggiungiStudente", controlloLoggato ,controlloAdmin , async (req ,res)=>{
-    const { username, password, nome, cognome, dataNascita, idClasse } = req.body;
+    const { username, password, nome, cognome, dataNascita, idClasse, nomeSede } = req.body;
     let matricola;
     try{
         const salt = await genSalt()
         const passwordhash = await hash(password, salt)
 
-        const risultato = await new Pool().query("INSERT into UTENTI (username, password, tipo) values($1, $2, 'Studente') returning matricola", [username, passwordhash])
+        const controlloSede = await new Pool().query("select nomeSede from Classi where idClasse=$1", [idClasse]);
+        if(controlloSede.rows[0].nomesede != nomeSede)
+            throw new Error("la sede dello studente non corrisponde con la sede della classe")
+
+
+        const risultato = await new Pool().query("INSERT into UTENTI (username, password, tipo, nomeSede) values($1, $2, 'Studente', $3) returning matricola", [username, passwordhash, nomeSede])
         matricola = risultato.rows[0].matricola
 
         await new Pool().query("INSERT into STUDENTI (idStudente, nome, cognome, dataNascita, idClasse) values ($1, $2, $3, $4, $5)", [matricola, nome, cognome, dataNascita, idClasse])

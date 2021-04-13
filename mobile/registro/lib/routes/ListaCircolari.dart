@@ -13,31 +13,37 @@ class _ListaCircolariState extends State<ListaCircolari> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      child: FutureBuilder(
-        future: _gestoreCircolari.scaricaCircolari(),
-        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
+    return RefreshIndicator(
+      onRefresh: () async {
+        await _gestoreCircolari.scaricaCircolari();
+        setState(() {});
+      },
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: FutureBuilder(
+          future: _gestoreCircolari.scaricaCircolari(),
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
 
-          if (snapshot.connectionState == ConnectionState.done) {
-            return ListView.builder(
-              itemCount: _gestoreCircolari.totale,
-              itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(bottom: 20),
-                child: _gestoreCircolari[index].toWidget(() {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => VisualizzaCircolare(
-                            circolare: _gestoreCircolari[index],
-                          )));
-                }),
-              ),
-            );
-          } else
-            return Caricamento();
-        },
+            if (snapshot.connectionState == ConnectionState.done) {
+              return ListView.builder(
+                itemCount: _gestoreCircolari.totale,
+                itemBuilder: (context, index) => Padding(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: _gestoreCircolari[index].toWidget(() {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => VisualizzaCircolare(
+                              circolare: _gestoreCircolari[index],
+                            )));
+                  }),
+                ),
+              );
+            } else
+              return Caricamento();
+          },
+        ),
       ),
     );
   }

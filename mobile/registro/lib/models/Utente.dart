@@ -9,7 +9,7 @@ import 'package:registro/models/HttpRequest.dart';
 import 'package:registro/models/Studente.dart';
 
 abstract class Utente {
-  String _username, _nome, _cognome;
+  String _username, _nome, _cognome, _nomeSede;
   int _matricola;
   DateTime _dataNascita;
 
@@ -21,6 +21,7 @@ abstract class Utente {
   DateTime get dataNascita => _dataNascita;
   String get username => _username;
   int get matricola => _matricola;
+  String get nomeSede => _nomeSede;
   Widget get home;
 
   static String get token => _token;
@@ -28,9 +29,10 @@ abstract class Utente {
   Utente(Map<String, dynamic> data) {
     this._cognome = data["cognome"];
     this._nome = data["nome"];
-    this._dataNascita = DateTime.parse(data["datanascita"]);
+    this._dataNascita = DateTime.parse(data["datanascita"]).toLocal();
     this._username = data["username"];
     this._matricola = data["matricola"];
+    this._nomeSede = data["nomesede"];
   }
 
   static Future<String> get _localPath async {

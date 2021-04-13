@@ -37,7 +37,7 @@ utenteRoutes.get("/", controlloLoggato, async (req, res) => {
         
         const pool = new Pool()
 
-        const risultato = await pool.query(`select matricola, username, tipo from Utenti where matricola=$1`, [id]);
+        const risultato = await pool.query(`select matricola, username, tipo, nomeSede from Utenti where matricola=$1`, [id]);
         let utente = risultato.rows[0];
 
         if(!utente)

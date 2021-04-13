@@ -16,6 +16,7 @@ export const controlloLoggato = async (req:any, res:any, next:Function)=>{
                 matricola: ris.rows[0].matricola,
                 password: ris.rows[0].password,
                 tipo: ris.rows[0].tipo,
+                nomeSede: ris.rows[0].nomesede,
                 username,
             }
             next()

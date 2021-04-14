@@ -66,6 +66,8 @@ class Studente extends Utente with IterableMixin<GruppoVoti> {
     return _gestoreVoti.toList();
   }
 
+  int get numeroMaterie => _gestoreVoti.length;
+
   @override
   String toString() => "$username (Studente)";
 }

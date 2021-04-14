@@ -11,6 +11,7 @@ class GestoreVoti with IterableMixin {
 
     if (index < 0) {
       GruppoVoti gruppo = new GruppoVoti(voto.nomeMateria);
+      gruppo.aggiungiVoto(voto);
       _gruppi.add(gruppo);
     } else
       _gruppi[index].aggiungiVoto(voto);
@@ -25,7 +26,7 @@ class GestoreVoti with IterableMixin {
       tot += element.totale;
     });
 
-    return totale;
+    return tot;
   }
 
   void cancella() {

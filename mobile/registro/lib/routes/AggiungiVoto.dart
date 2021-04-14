@@ -175,7 +175,7 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
                           if (_dataSelezionata != null)
                             voto = new Voto(_votoSelezionato, _materiaSelezionata?.nome ?? "", _txtDescrizione.text, _dataSelezionata);
                           else
-                            Voto voto = new Voto.creaConDataOdierna(
+                            voto = new Voto.creaConDataOdierna(
                               _votoSelezionato,
                               _materiaSelezionata?.nome ?? "",
                               _txtDescrizione.text,

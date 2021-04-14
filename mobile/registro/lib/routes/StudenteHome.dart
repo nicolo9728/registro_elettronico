@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:registro/models/Studente.dart';
 import 'package:registro/models/Utente.dart';
+import 'package:registro/routes/Caricamento.dart';
 
 class StudenteHome extends StatefulWidget {
   @override
@@ -16,12 +17,20 @@ class _StudenteHomeState extends State<StudenteHome> {
         await _studente.aggiornaVoti();
         setState(() {});
       },
-      child: Container(
-        child: ListView.builder(
-          itemCount: _studente.numeroVoti,
-          itemBuilder: (context, index) => _studente[index].toWidget(),
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-        ),
+      child: FutureBuilder(
+        future: _studente.aggiornaVoti(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done)
+            return Container(
+              child: ListView.builder(
+                itemCount: _studente.numeroVoti,
+                itemBuilder: (context, index) => Text("data"),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              ),
+            );
+          else
+            return Caricamento();
+        },
       ),
     );
   }

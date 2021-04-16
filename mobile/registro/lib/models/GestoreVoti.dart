@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:registro/models/GruppoVoti.dart';
 import 'package:registro/models/Voto.dart';
 
-class GestoreVoti with IterableMixin {
+class GestoreVoti with IterableMixin<GruppoVoti> {
   List<GruppoVoti> _gruppi = [];
 
   void aggiungi(Voto voto) {
@@ -33,8 +33,7 @@ class GestoreVoti with IterableMixin {
     _gruppi.clear();
   }
 
-  @override
-  List toList({bool growable = true}) {
+  List<Voto> list({bool growable = true}) {
     List<Voto> voti = [];
     _gruppi.forEach((element) {
       element.forEach((element) {
@@ -46,5 +45,5 @@ class GestoreVoti with IterableMixin {
   }
 
   @override
-  Iterator get iterator => _gruppi.iterator;
+  Iterator<GruppoVoti> get iterator => _gruppi.iterator;
 }

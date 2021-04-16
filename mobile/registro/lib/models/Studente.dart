@@ -49,7 +49,13 @@ class Studente extends Utente with IterableMixin<GruppoVoti> {
   }
 
   double get media {
-    return 0;
+    int somma = 0;
+    List<Voto> voti = _gestoreVoti.list();
+    voti.forEach((voto) {
+      somma += voto.valutazione;
+    });
+
+    return somma / voti.length;
   }
 
   GruppoVoti operator [](int index) => _gestoreVoti[index];

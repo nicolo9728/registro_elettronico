@@ -45,7 +45,7 @@ class _StudenteHomeState extends State<StudenteHome> {
                           Expanded(
                             child: Text(
                               _studente[index].materia,
-                              style: TextStyle(color: Colors.white60, fontSize: 25),
+                              style: TextStyle(color: Colors.white60, fontSize: 25, fontWeight: FontWeight.w600),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -63,7 +63,7 @@ class _StudenteHomeState extends State<StudenteHome> {
                               ),
                               Text(
                                 _studente[index].media.toStringAsFixed(1),
-                                style: TextStyle(color: Colors.white70, fontSize: 18),
+                                style: TextStyle(color: Colors.white70, fontSize: 18, fontWeight: FontWeight.w800),
                               )
                             ],
                           )
@@ -71,7 +71,7 @@ class _StudenteHomeState extends State<StudenteHome> {
                       ),
                       children: _studente[index]
                           .map((element) => Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(8.0),
                                 child: VotoWidget(voto: element),
                               ))
                           .toList(),

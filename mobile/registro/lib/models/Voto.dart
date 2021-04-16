@@ -54,6 +54,4 @@ class Voto {
     Voto v = new Voto(data["valutazione"], data["nomemateria"], data["descrizione"], DateTime.parse(data["data"]));
     return v;
   }
-
-  Widget toWidget() => VotoWidget(voto: this);
 }

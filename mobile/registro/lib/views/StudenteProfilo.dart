@@ -39,9 +39,22 @@ class StudenteProfilo extends StatelessWidget {
                     SizedBox(
                       height: 15,
                     ),
-                    Text(
-                      profilo.media.toStringAsFixed(1),
-                      style: TextStyle(fontSize: 35),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SizedBox(
+                          width: 70,
+                          height: 70,
+                          child: CircularProgressIndicator(
+                            value: profilo.media / 10,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white54),
+                          ),
+                        ),
+                        Text(
+                          profilo.media.toStringAsFixed(1),
+                          style: TextStyle(fontSize: 35),
+                        )
+                      ],
                     )
                   ],
                 ),

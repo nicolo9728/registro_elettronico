@@ -5,6 +5,7 @@ import 'package:registro/models/Studente.dart';
 import 'package:registro/models/Utente.dart';
 import 'package:registro/models/Voto.dart';
 import 'package:registro/routes/Caricamento.dart';
+import 'package:registro/views/VotoWidget.dart';
 
 class AggiungiVoto extends StatefulWidget {
   final Studente studente;
@@ -74,7 +75,11 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Wrap(
-                            children: [_voti[index].toWidget()],
+                            children: [
+                              VotoWidget(
+                                voto: _voti[index],
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -175,7 +180,7 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
                           if (_dataSelezionata != null)
                             voto = new Voto(_votoSelezionato, _materiaSelezionata?.nome ?? "", _txtDescrizione.text, _dataSelezionata);
                           else
-                            Voto voto = new Voto.creaConDataOdierna(
+                            voto = new Voto.creaConDataOdierna(
                               _votoSelezionato,
                               _materiaSelezionata?.nome ?? "",
                               _txtDescrizione.text,

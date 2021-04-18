@@ -11,7 +11,6 @@ class StudenteItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 4,
-      borderRadius: BorderRadius.circular(10),
       color: Color.fromARGB(255, 28, 116, 217),
       child: InkWell(
         onTap: onTap,

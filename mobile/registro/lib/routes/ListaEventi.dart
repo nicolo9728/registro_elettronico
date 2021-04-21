@@ -50,14 +50,20 @@ class _ListaEventiState extends State<ListaEventi> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   return Expanded(
                     child: Container(
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: EventoWidget(evento: _gestoreEventi[index]),
-                          );
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          await _gestoreEventi.scaricaEventi(_dataSelezionata);
+                          setState(() {});
                         },
-                        itemCount: _gestoreEventi.length,
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: EventoWidget(evento: _gestoreEventi[index]),
+                            );
+                          },
+                          itemCount: _gestoreEventi.length,
+                        ),
                       ),
                     ),
                   );

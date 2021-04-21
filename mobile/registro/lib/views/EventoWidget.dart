@@ -22,7 +22,7 @@ class EventoWidget extends StatelessWidget {
               SizedBox(
                   width: 250,
                   child: Text(
-                    evento.descrizione,
+                    evento.descrizioneEvento,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 18),

@@ -30,7 +30,7 @@ class _ListaEventiState extends State<ListaEventi> {
                     DateTime dataOdierna = DateTime.now();
 
                     DateTime data = await showDatePicker(
-                        context: context, initialDate: dataOdierna, firstDate: DateTime(dataOdierna.year - 1), lastDate: DateTime(dataOdierna.year + 1));
+                        context: context, initialDate: _dataSelezionata, firstDate: DateTime(dataOdierna.year - 1), lastDate: DateTime(dataOdierna.year + 1));
 
                     if (data != null) {
                       setState(() {

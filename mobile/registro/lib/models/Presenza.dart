@@ -33,7 +33,7 @@ class Presenza implements IEvento {
   Color get colore => Color.fromARGB(255, 28, 116, 217);
 
   @override
-  String get descrizione => "$nomeDocente $cognomeDocente";
+  String get descrizioneEvento => "$nomeDocente $cognomeDocente";
 
   @override
   String get nomeEvento => "Presente";

@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:registro/models/IEvento.dart';
 import 'package:registro/views/VotoWidget.dart';
 
-class Voto {
+class Voto implements IEvento {
   int _valutazione;
   DateTime _data;
   String _nomeMateria, _descrizione;
+  String _nome = null;
 
   Voto(int valutazione, String nomeMateria, String descrizione, DateTime data) {
     this.data = data;
@@ -50,8 +52,20 @@ class Voto {
       throw new ArgumentError("la descrizione non puo superare i 50 caratteri");
   }
 
+  String get nome => _nome;
+
   factory Voto.fromData(Map<String, dynamic> data) {
     Voto v = new Voto(data["valutazione"], data["nomemateria"], data["descrizione"], DateTime.parse(data["data"]));
+    v._nome = data["nome"];
     return v;
   }
+
+  @override
+  Color get colore => valutazione >= 6 ? Colors.green[800] : Colors.red;
+
+  @override
+  String get nomeEvento => "$nomeMateria: $valutazione";
+
+  @override
+  String get descrizioneEvento => "$nome";
 }

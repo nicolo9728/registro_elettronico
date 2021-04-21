@@ -62,5 +62,22 @@ docenteRoutes.get("/ottieniVoti", controlloLoggato, controlloDocente, async (req
     catch(e){
         res.status(400).send(e.message)
     }
+})
 
+docenteRoutes.post("/segnaPresenta", controlloLoggato, controlloDocente, async (req, res)=>{
+    const matricola = req.body.utenteLoggato.matricola;
+    const idStudente = req.body.idStudente;
+    const pool = new Pool();
+    try{
+        const ris = await pool.query("select 1 from Studenti natural join Classi natural join Insegnamenti where idDocente = $1 and Studenti.idStudente=$2", [matricola, idStudente]);
+        if(ris.rowCount > 0){
+            await pool.query("insert into Presenze (idDocente, idStudente, data) values ($1,$2,$3)", [matricola, idStudente, new Date()])
+            res.status(200).send("successo")
+        }
+        else
+            throw new Error("il docente non insegna in questa classe");
+    }
+    catch(e){
+        res.status(400).send(e.message)
+    }
 })

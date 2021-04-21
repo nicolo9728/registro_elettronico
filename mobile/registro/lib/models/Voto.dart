@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:registro/models/IEvento.dart';
 import 'package:registro/views/VotoWidget.dart';
 
-class Voto {
+class Voto implements IEvento {
   int _valutazione;
   DateTime _data;
   String _nomeMateria, _descrizione;
@@ -54,4 +55,10 @@ class Voto {
     Voto v = new Voto(data["valutazione"], data["nomemateria"], data["descrizione"], DateTime.parse(data["data"]));
     return v;
   }
+
+  @override
+  Color get colore => valutazione >= 6 ? Colors.green[800] : Colors.red;
+
+  @override
+  String get nomeEvento => "Valutazione in $nomeMateria";
 }

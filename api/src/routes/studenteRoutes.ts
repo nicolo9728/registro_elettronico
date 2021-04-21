@@ -25,7 +25,7 @@ studenteRoutes.get("/ottieniEventi", controlloLoggato, controlloStudente, async 
 
     try{
         const queryVoti = await pool.query("select valutazione, descrizione, data, nomeMateria, nome as nomeDocente from Voti natural join Docenti where idStudente=$1 and data=$2", [matricola, data])
-        const queryPresenze = await pool.query("select data, nome as nomeDocente, cognome as cognomeDocente from presenze natural join Docenti where idStudente=$1 and data=$2", [matricola, data])
+        const queryPresenze = await pool.query("select idStudente, data, nome as nomeDocente, cognome as cognomeDocente from presenze natural join Docenti where idStudente=$1 and data=$2", [matricola, data])
 
         const risposta = {
             voti: queryVoti.rows,

@@ -68,14 +68,55 @@ docenteRoutes.post("/segnaPresenta", controlloLoggato, controlloDocente, async (
     const matricola = req.body.utenteLoggato.matricola;
     const idStudente = req.body.idStudente;
     const pool = new Pool();
+
     try{
-        const ris = await pool.query("select 1 from Studenti natural join Classi natural join Insegnamenti where idDocente = $1 and Studenti.idStudente=$2", [matricola, idStudente]);
-        if(ris.rowCount > 0){
-            await pool.query("insert into Presenze (idDocente, idStudente, data) values ($1,$2,$3)", [matricola, idStudente, new Date()])
+        const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])
+        if(queryStudente.rowCount > 0){
+            await pool.query("INSERT into Presenze (idDocente, idStudente, data) values ($1, $2, $3)", [matricola, idStudente, new Date()])
             res.status(200).send("successo")
         }
         else
-            throw new Error("il docente non insegna in questa classe");
+            throw new Error("il docente non insegna a questo studente")
+    }
+    catch(e){
+        res.status(400).send(e.message)
+    }
+})
+
+docenteRoutes.post("/segnaEntrata", controlloLoggato, controlloDocente, async (req, res)=>{
+    const matricola = req.body.utenteLoggato.matricola
+    const idStudente = req.body.idStudente
+    const entrata = req.body.entrata
+    const pool = new Pool()
+
+    try{
+        const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])
+        if(queryStudente.rowCount>0){
+            await pool.query("INSERT into presenze (entrata, idStudente, idDocente, data) values($1, $2, $3, $4)", [entrata, idStudente, matricola, new Date()])
+            res.status(200).send("successo")
+        }
+        else
+            throw new Error("il docente non insegna a questo studente")
+    }
+    catch(e){
+        res.status(400).send(e.message)
+    }
+})
+
+docenteRoutes.post("/segnaUscita", controlloLoggato, controlloDocente, async (req, res)=>{
+    const matricola = req.body.utenteLoggato.matricola
+    const idStudente = req.body.idStudente
+    const uscita = req.body.uscita
+    const pool = new Pool()
+
+    try{
+        const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])
+        if(queryStudente.rowCount > 0){
+            await pool.query("UPDATE presenze set uscita=$1 where idStudente=$2 and data=$3", [uscita, idStudente, new Date()])
+            res.status(200).send("successo")
+        }
+        else
+            throw new Error("il docente non insegna a questo studente")
     }
     catch(e){
         res.status(400).send(e.message)

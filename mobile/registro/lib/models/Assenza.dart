@@ -21,4 +21,7 @@ class Assenza implements IEvento {
 
   @override
   String get nomeEvento => "Assenza";
+
+  @override
+  IconData get icona => Icons.block;
 }

@@ -39,6 +39,15 @@ class StudenteItem extends StatelessWidget {
                   ),
                   Text("${studente.dataNascita.day}/${studente.dataNascita.month}/${studente.dataNascita.year}")
                 ],
+              ),
+              Expanded(
+                  child: Text(
+                studente.statusString,
+                textAlign: TextAlign.right,
+                style: TextStyle(fontSize: 18),
+              )),
+              SizedBox(
+                width: 10,
               )
             ],
           ),

@@ -8,33 +8,45 @@ class EventoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: evento.colore,
-      padding: EdgeInsets.all(8),
-      child: Column(
-        children: [
-          Text(
-            evento.nomeEvento,
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                  width: 250,
-                  child: Text(
+        color: evento.colore,
+        padding: EdgeInsets.all(8),
+        child: Row(
+          children: [
+            Icon(
+              evento.icona,
+              color: Colors.white60,
+              size: 30,
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        evento.nomeEvento,
+                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        "${evento.data.day}/${evento.data.month}/${evento.data.year}",
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ],
+                  ),
+                  Text(
                     evento.descrizioneEvento,
-                    maxLines: 1,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 18),
-                  )),
-              Text(
-                "${evento.data.day}/${evento.data.month}/${evento.data.year}",
-                style: TextStyle(fontSize: 20),
-              )
-            ],
-          )
-        ],
-      ),
-    );
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }

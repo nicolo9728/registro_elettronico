@@ -68,4 +68,7 @@ class Voto implements IEvento {
 
   @override
   String get descrizioneEvento => "$nome";
+
+  @override
+  IconData get icona => Icons.article_outlined;
 }

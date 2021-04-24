@@ -92,7 +92,7 @@ docenteRoutes.post("/segnaEntrata", controlloLoggato, controlloDocente, async (r
     try{
         const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])
         if(queryStudente.rowCount>0){
-            await pool.query("INSERT into presenze (entrata, idStudente, idDocente, data) values($1, $2, $3, $4)", [entrata, idStudente, matricola, new Date()])
+            await pool.query("INSERT into presenze (entrata, idStudente, idDocente, data) values($1, $2, $3, $4) ON CONFLICT (data, idStudente) DO UPDATE set entrata=$1", [entrata, idStudente, matricola, new Date()])
             res.status(200).send("successo")
         }
         else
@@ -112,8 +112,11 @@ docenteRoutes.post("/segnaUscita", controlloLoggato, controlloDocente, async (re
     try{
         const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])
         if(queryStudente.rowCount > 0){
-            await pool.query("UPDATE presenze set uscita=$1 where idStudente=$2 and data=$3", [uscita, idStudente, new Date()])
-            res.status(200).send("successo")
+            const ris = await pool.query("UPDATE presenze set uscita=$1 where idStudente=$2 and data=$3", [uscita, idStudente, new Date()])
+            if(ris.rowCount > 0)
+                res.status(200).send("successo")
+            else
+                res.status(400).send("lo studente non è mai entrato")
         }
         else
             throw new Error("il docente non insegna a questo studente")

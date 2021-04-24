@@ -21,13 +21,14 @@ class GestioneStudente extends StatefulWidget {
 
 class _GestioneStudenteState extends State<GestioneStudente> {
   Studente _studente;
-  StatusStudente _status = StatusStudente.Presente;
+  StatusStudente _status;
   String status = "";
   int _ora;
   List<int> _oreValide = [1, 2, 3, 4, 5, 6];
 
   _GestioneStudenteState(Studente studente) {
     _studente = studente;
+    _status = studente.status;
   }
 
   Future<void> segna() async {
@@ -48,7 +49,7 @@ class _GestioneStudenteState extends State<GestioneStudente> {
           context: context,
           builder: (context) => AlertDialog(
                 title: Text("Errore"),
-                content: Text("impossibile effettuare l'operazione"),
+                content: Text(e.message),
               ));
     }
 
@@ -132,6 +133,7 @@ class _GestioneStudenteState extends State<GestioneStudente> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       DropdownButton<int>(
+                          hint: Text("ora"),
                           value: _ora,
                           dropdownColor: Color.fromARGB(255, 30, 33, 43),
                           onChanged: (value) {
@@ -168,15 +170,6 @@ class _GestioneStudenteState extends State<GestioneStudente> {
               ],
             ),
           ),
-          TextButton(
-              onPressed: () async {
-                await _studente.resetPresenza();
-                setState(() {});
-              },
-              child: Text(
-                "Resetta presenza",
-                style: TextStyle(color: Colors.black),
-              )),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

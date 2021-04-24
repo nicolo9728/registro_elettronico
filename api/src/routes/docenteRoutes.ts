@@ -34,7 +34,7 @@ docenteRoutes.get("/ottieniStudenti", controlloLoggato, controlloDocente, async 
         const docentiDellaClasse = (await pool.query("select 1 from insegnamenti where idClasse=$1 and idDocente=$2", [idClasse, matricola]))
 
         if(docentiDellaClasse.rowCount>0){
-            const studenti = (await pool.query("select matricola, username, nome, cognome, dataNascita from Studenti inner join Utenti on (matricola=idStudente) where idClasse=$1", [idClasse])).rows
+            const studenti = (await pool.query("select matricola, username, nome, cognome, dataNascita, entrata, uscita from Studenti inner join Utenti on (matricola=idStudente) left join Presenze on(Studenti.idStudente = Presenze.idStudente and Presenze.data=$2) where idClasse=$1", [idClasse, new Date()])).rows
             res.status(200).json(studenti)
         }
         else
@@ -64,7 +64,7 @@ docenteRoutes.get("/ottieniVoti", controlloLoggato, controlloDocente, async (req
     }
 })
 
-docenteRoutes.post("/segnaPresenta", controlloLoggato, controlloDocente, async (req, res)=>{
+docenteRoutes.post("/segnaPresenza", controlloLoggato, controlloDocente, async (req, res)=>{
     const matricola = req.body.utenteLoggato.matricola;
     const idStudente = req.body.idStudente;
     const pool = new Pool();
@@ -113,6 +113,25 @@ docenteRoutes.post("/segnaUscita", controlloLoggato, controlloDocente, async (re
         const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])
         if(queryStudente.rowCount > 0){
             await pool.query("UPDATE presenze set uscita=$1 where idStudente=$2 and data=$3", [uscita, idStudente, new Date()])
+            res.status(200).send("successo")
+        }
+        else
+            throw new Error("il docente non insegna a questo studente")
+    }
+    catch(e){
+        res.status(400).send(e.message)
+    }
+})
+
+docenteRoutes.post("/cancellaPresenza", controlloLoggato, controlloDocente, async (req, res)=>{
+    const matricola = req.body.utenteLoggato.matricola
+    const idStudente = req.body.idStudente
+    const pool = new Pool();
+
+    try{
+        const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])
+        if(queryStudente.rowCount > 0){
+            await pool.query("DELETE from presenze where idStudente=$1 and data=$2", [idStudente, new Date()])
             res.status(200).send("successo")
         }
         else

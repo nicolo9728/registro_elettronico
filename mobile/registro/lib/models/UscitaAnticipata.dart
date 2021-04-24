@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:registro/models/HttpRequest.dart';
 import 'package:registro/models/Presenza.dart';
+import 'package:registro/models/Studente.dart';
 
 class UscitaAnticipata extends Presenza {
   int _uscita;
@@ -38,7 +39,8 @@ class UscitaAnticipata extends Presenza {
   IconData get icona => Icons.alarm;
 
   @override
-  Future<void> segna(int idStudente) async {
-    await HttpRequest.post("/docenti/segnaUscita", jsonEncode({"idStudente": idStudente, "uscita": uscita}));
+  Future<void> segna(Studente studente) async {
+    await HttpRequest.post("/docenti/segnaUscita", jsonEncode({"idStudente": studente.matricola, "uscita": uscita}));
+    studente.aggiornaStatus(StatusStudente.Uscito);
   }
 }

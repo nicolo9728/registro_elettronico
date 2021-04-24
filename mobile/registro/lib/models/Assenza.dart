@@ -1,13 +1,23 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:registro/models/IEvento.dart';
+import 'package:registro/models/Presenza.dart';
 
-class Assenza implements IEvento {
+import 'HttpRequest.dart';
+import 'Studente.dart';
+
+class Assenza extends Presenza {
   DateTime _data;
 
-  Assenza(DateTime data) {
-    _data = data;
+  Assenza() {
+    _data = DateTime.now();
+  }
+
+  Future<void> segna(Studente studente) async {
+    await HttpRequest.post("/docenti/cancellaPresenza", jsonEncode({"idStudente": studente.matricola}));
+    studente.aggiornaStatus(StatusStudente.Assente);
   }
 
   @override

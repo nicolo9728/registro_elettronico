@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:registro/models/HttpRequest.dart';
 import 'package:registro/models/IEvento.dart';
+import 'package:registro/models/Studente.dart';
 
 class Presenza implements IEvento {
   DateTime _data;
@@ -28,8 +29,9 @@ class Presenza implements IEvento {
   @protected
   set data(DateTime data) => _data = data;
 
-  Future<void> segna(int idStudente) async {
-    await HttpRequest.post("/segnaPresenza", jsonEncode({"idStudente": idStudente}));
+  Future<void> segna(Studente studente) async {
+    await HttpRequest.post("/docenti/segnaPresenza", jsonEncode({"idStudente": studente.matricola}));
+    studente.aggiornaStatus(StatusStudente.Presente);
   }
 
   @override

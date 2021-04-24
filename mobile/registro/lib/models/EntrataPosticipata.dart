@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:registro/models/HttpRequest.dart';
 import 'package:registro/models/Presenza.dart';
+import 'package:registro/models/Studente.dart';
 
 class EntrataPosticipata extends Presenza {
   int _entrata;
@@ -36,8 +37,9 @@ class EntrataPosticipata extends Presenza {
   Color get colore => Color.fromARGB(255, 233, 99, 32);
 
   @override
-  Future<void> segna(int idStudente) async {
-    await HttpRequest.post("/docenti/segnaEntrata", jsonEncode({"idStudente": idStudente, "entrata": entrata}));
+  Future<void> segna(Studente studente) async {
+    await HttpRequest.post("/docenti/segnaEntrata", jsonEncode({"idStudente": studente.matricola, "entrata": entrata}));
+    studente.aggiornaStatus(StatusStudente.Entrato);
   }
 
   @override

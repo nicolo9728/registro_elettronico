@@ -37,7 +37,7 @@ class GestoreEventi with IterableMixin {
         _eventi.add(Presenza.fromData(data));
     });
 
-    if (presenze.length == 0 && Utente.utenteLoggato.runtimeType == Studente) _eventi.add(new Assenza(data));
+    if (presenze.length == 0 && Utente.utenteLoggato.runtimeType == Studente) _eventi.add(new Assenza());
   }
 
   @override

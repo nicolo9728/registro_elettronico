@@ -4,6 +4,7 @@ import 'package:registro/models/Classe.dart';
 import 'package:registro/models/Docente.dart';
 import 'package:registro/models/Studente.dart';
 import 'package:registro/models/Utente.dart';
+import 'package:registro/routes/GestioneStudente.dart';
 import 'package:registro/views/StudenteItem.dart';
 import 'AggiungiVoto.dart';
 
@@ -72,13 +73,10 @@ class _DocenteHomeState extends State<DocenteHome> {
                       padding: EdgeInsets.only(bottom: 15),
                       child: StudenteItem(
                         studente: _classeSelezionata[index],
-                        onTap: () {
+                        onTap: () async {
                           Studente studente = _classeSelezionata[index];
-                          showDialog(
-                              context: context,
-                              builder: (context) => AggiungiVoto(
-                                    studente: studente,
-                                  ));
+                          await Navigator.of(context).push(MaterialPageRoute(builder: (context) => GestioneStudente(studente)));
+                          setState(() {});
                         },
                       ),
                     )),

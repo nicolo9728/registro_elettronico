@@ -11,6 +11,7 @@ class CircolareWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Color.fromARGB(255, 28, 116, 217),
+      borderRadius: BorderRadius.circular(10),
       child: InkWell(
         onTap: onTab ?? () {},
         child: Padding(

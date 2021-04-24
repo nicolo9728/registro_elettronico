@@ -30,7 +30,7 @@ class UscitaAnticipata extends Presenza {
   @override
   String get nomeEvento => "Uscita anticipata";
   @override
-  String get descrizioneEvento => "lo studente è entrato alla $uscita^a ora";
+  String get descrizioneEvento => "lo studente è uscito alla $uscita^a ora";
 
   @override
   Color get colore => Color.fromARGB(255, 233, 99, 32);

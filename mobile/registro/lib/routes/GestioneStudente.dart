@@ -48,7 +48,7 @@ class _GestioneStudenteState extends State<GestioneStudente> {
           context: context,
           builder: (context) => AlertDialog(
                 title: Text("Errore"),
-                content: Text("impossibile effettuare l'operazione"),
+                content: Text(e.message),
               ));
     }
 
@@ -168,15 +168,6 @@ class _GestioneStudenteState extends State<GestioneStudente> {
               ],
             ),
           ),
-          TextButton(
-              onPressed: () async {
-                await _studente.resetPresenza();
-                setState(() {});
-              },
-              child: Text(
-                "Resetta presenza",
-                style: TextStyle(color: Colors.black),
-              )),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

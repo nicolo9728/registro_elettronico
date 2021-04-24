@@ -116,6 +116,8 @@ class Studente extends Utente with IterableMixin<GruppoVoti> {
   int get numeroMaterie => _gestoreVoti.length;
 
   void aggiornaStatus(StatusStudente status) {
+    if (status == StatusStudente.Entrato && _status == StatusStudente.Uscito) return;
+
     _status = status;
   }
 

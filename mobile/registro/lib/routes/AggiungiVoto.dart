@@ -50,11 +50,10 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        title: Text("Aggiungi voto"),
       ),
       resizeToAvoidBottomInset: false,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.only(bottom: 50),
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Column(
@@ -169,49 +168,50 @@ class _AggiungiVotoState extends State<AggiungiVoto> {
                       ))
                 ],
               ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: TextButton(
-                      onPressed: () async {
-                        try {
-                          Voto voto;
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: TextButton(
+                    onPressed: () async {
+                      try {
+                        Voto voto;
 
-                          if (_dataSelezionata != null)
-                            voto = new Voto(_votoSelezionato, _materiaSelezionata?.nome ?? "", _txtDescrizione.text, _dataSelezionata);
-                          else
-                            voto = new Voto.creaConDataOdierna(
-                              _votoSelezionato,
-                              _materiaSelezionata?.nome ?? "",
-                              _txtDescrizione.text,
-                            );
+                        if (_dataSelezionata != null)
+                          voto = new Voto(_votoSelezionato, _materiaSelezionata?.nome ?? "", _txtDescrizione.text, _dataSelezionata);
+                        else
+                          voto = new Voto.creaConDataOdierna(
+                            _votoSelezionato,
+                            _materiaSelezionata?.nome ?? "",
+                            _txtDescrizione.text,
+                          );
 
-                          await utenteLoggato.caricaVoto(studente, voto);
-                          _voti = await utenteLoggato.ottieniVoti(studente);
-                          setState(() {});
-                        } catch (e) {
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: Text("impossibile caricare il voto"),
-                                    content: Text(e.toString()),
-                                  ));
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            color: Colors.black,
-                          ),
-                          Text(
-                            "aggiungi voto",
-                            style: TextStyle(color: Colors.black),
-                          )
-                        ],
-                      )),
-                ),
+                        await utenteLoggato.caricaVoto(studente, voto);
+                        _voti = await utenteLoggato.ottieniVoti(studente);
+                        setState(() {});
+                      } catch (e) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text("impossibile caricare il voto"),
+                                  content: Text(e.toString()),
+                                ));
+                      }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: Colors.black,
+                        ),
+                        Text(
+                          "aggiungi voto",
+                          style: TextStyle(color: Colors.black),
+                        )
+                      ],
+                    )),
               )
             ],
           ),

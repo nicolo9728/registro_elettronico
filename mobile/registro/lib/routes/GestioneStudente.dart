@@ -72,115 +72,117 @@ class _GestioneStudenteState extends State<GestioneStudente> {
       appBar: AppBar(
         title: Text("Gestione Studente"),
       ),
-      body: Column(
-        children: [
-          ProfiloGeneralita(
-            utente: _studente,
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Status",
-                  style: TextStyle(fontSize: 30),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  _studente.statusString,
-                  style: TextStyle(fontSize: 20),
-                )
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ProfiloGeneralita(
+              utente: _studente,
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: [
-                Text(
-                  "Imposta status:",
-                  style: TextStyle(fontSize: 15),
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                Flexible(
-                  child: DropdownButton<StatusStudente>(
-                    onChanged: (value) {
-                      setState(() {
-                        _status = value;
-                      });
-                    },
-                    value: _status,
-                    dropdownColor: Color.fromARGB(255, 30, 33, 43),
-                    hint: Text("status"),
-                    items: StatusStudente.values
-                        .map((status) => DropdownMenuItem<StatusStudente>(
-                            value: status,
-                            child: Container(
-                              child: Text(
-                                status.toString().split('.').last,
-                                style: TextStyle(color: Colors.white60),
-                              ),
-                            )))
-                        .toList(),
+            SizedBox(
+              height: 40,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Status",
+                    style: TextStyle(fontSize: 30),
                   ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                if (_status == StatusStudente.Entrato || _status == StatusStudente.Uscito)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      DropdownButton<int>(
-                          hint: Text("ora"),
-                          value: _ora,
-                          dropdownColor: Color.fromARGB(255, 30, 33, 43),
-                          onChanged: (value) {
-                            setState(() {
-                              _ora = value;
-                            });
-                          },
-                          items: _oreValide
-                              .map((e) => DropdownMenuItem<int>(
-                                  value: e,
-                                  child: Text(
-                                    e.toString(),
-                                    style: TextStyle(color: Colors.white60),
-                                  )))
-                              .toList()),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      TextButton(
-                          onPressed: segna,
-                          child: Text(
-                            "segna",
-                            style: TextStyle(color: Colors.black),
-                          ))
-                    ],
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    _studente.statusString,
+                    style: TextStyle(fontSize: 20),
                   )
-                else
-                  TextButton(
-                      onPressed: segna,
-                      child: Text(
-                        "segna",
-                        style: TextStyle(color: Colors.black),
-                      ))
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                children: [
+                  Text(
+                    "Imposta status:",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Flexible(
+                    child: DropdownButton<StatusStudente>(
+                      onChanged: (value) {
+                        setState(() {
+                          _status = value;
+                        });
+                      },
+                      value: _status,
+                      dropdownColor: Color.fromARGB(255, 30, 33, 43),
+                      hint: Text("status"),
+                      items: StatusStudente.values
+                          .map((status) => DropdownMenuItem<StatusStudente>(
+                              value: status,
+                              child: Container(
+                                child: Text(
+                                  status.toString().split('.').last,
+                                  style: TextStyle(color: Colors.white60),
+                                ),
+                              )))
+                          .toList(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  if (_status == StatusStudente.Entrato || _status == StatusStudente.Uscito)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DropdownButton<int>(
+                            hint: Text("ora"),
+                            value: _ora,
+                            dropdownColor: Color.fromARGB(255, 30, 33, 43),
+                            onChanged: (value) {
+                              setState(() {
+                                _ora = value;
+                              });
+                            },
+                            items: _oreValide
+                                .map((e) => DropdownMenuItem<int>(
+                                    value: e,
+                                    child: Text(
+                                      e.toString(),
+                                      style: TextStyle(color: Colors.white60),
+                                    )))
+                                .toList()),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        TextButton(
+                            onPressed: segna,
+                            child: Text(
+                              "segna",
+                              style: TextStyle(color: Colors.black),
+                            ))
+                      ],
+                    )
+                  else
+                    TextButton(
+                        onPressed: segna,
+                        child: Text(
+                          "segna",
+                          style: TextStyle(color: Colors.black),
+                        ))
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Navigator.of(context).push(MaterialPageRoute(

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Pool } from "pg";
+import { dbImpostazioni } from "../conf";
 import { controlloDocente } from "../middleware/controlloDocente";
 import { controlloLoggato } from "../middleware/controlloLoggato";
 

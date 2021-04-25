@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:registro/models/Utente.dart';
+import 'package:registro/routes/Caricamento.dart';
 import 'package:registro/routes/Home.dart';
 
 class Login extends StatefulWidget {
@@ -9,7 +10,14 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   TextEditingController _txtUsername = TextEditingController(), _txtPassword = TextEditingController();
+  String textBottone = "Autenticazione";
+  bool attiva = true;
+
   void login() async {
+    setState(() {
+      textBottone = "Caricamento";
+      attiva = false;
+    });
     try {
       await Utente.login(_txtUsername.text, _txtPassword.text);
       if (Utente.loggato) {
@@ -31,6 +39,10 @@ class _LoginState extends State<Login> {
                 ],
               ));
     }
+    setState(() {
+      textBottone = "Login";
+      attiva = true;
+    });
   }
 
   @override
@@ -70,11 +82,11 @@ class _LoginState extends State<Login> {
                 height: 30,
               ),
               TextButton(
-                  onPressed: login,
+                  onPressed: attiva ? login : null,
                   child: Text(
-                    "login",
+                    textBottone,
                     style: TextStyle(color: Colors.black),
-                  ))
+                  )),
             ],
           ),
         ),

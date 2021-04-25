@@ -44,9 +44,12 @@ class CircolareWidget extends StatelessWidget {
                   )
                 ],
               ),
-              Text(
-                circolare.nomeSede,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              Expanded(
+                child: Text(
+                  circolare.nomeSede,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                ),
               )
             ],
           ),

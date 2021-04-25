@@ -14,6 +14,8 @@ class UscitaAnticipata extends Presenza {
 
   int get uscita => _uscita;
   set uscita(int uscita) {
+    if (uscita == null) throw new ArgumentError("ora di uscita non selezionata");
+
     if (uscita < 6)
       _uscita = uscita;
     else

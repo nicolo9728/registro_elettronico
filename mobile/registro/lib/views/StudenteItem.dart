@@ -12,6 +12,7 @@ class StudenteItem extends StatelessWidget {
     return Material(
       elevation: 4,
       color: Color.fromARGB(255, 28, 116, 217),
+      borderRadius: BorderRadius.circular(10),
       child: InkWell(
         onTap: onTap,
         child: Padding(

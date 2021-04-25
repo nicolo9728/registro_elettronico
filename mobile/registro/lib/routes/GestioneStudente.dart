@@ -50,6 +50,16 @@ class _GestioneStudenteState extends State<GestioneStudente> {
           builder: (context) => AlertDialog(
                 title: Text("Errore"),
                 content: Text(e.message),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        "OK",
+                        style: TextStyle(color: Colors.black),
+                      ))
+                ],
               ));
     }
 

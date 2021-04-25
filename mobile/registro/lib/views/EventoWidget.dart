@@ -8,8 +8,11 @@ class EventoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: evento.colore,
         padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: evento.colore,
+        ),
         child: Row(
           children: [
             Icon(

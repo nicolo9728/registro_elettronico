@@ -1,0 +1,1 @@
+export const dbImpostazioni = {ssl: {rejectUnauthorized: false}}

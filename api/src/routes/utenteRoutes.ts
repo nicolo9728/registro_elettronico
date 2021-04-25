@@ -2,6 +2,7 @@ import { compare, genSalt, hash } from "bcryptjs";
 import { Router } from "express";
 import { sign } from "jsonwebtoken";
 import { Pool } from "pg";
+import { dbImpostazioni } from "../conf";
 import { controlloLoggato } from "../middleware/controlloLoggato";
 
 export const utenteRoutes = Router()
@@ -10,7 +11,7 @@ utenteRoutes.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const ris = await new Pool().query("SELECT * from Utenti where username = $1", [username])
+        const ris = await new Pool(dbImpostazioni).query("SELECT * from Utenti where username = $1", [username])
 
         if (ris.rowCount == 0)
             throw new Error("username non valido")

@@ -4,7 +4,7 @@ import 'package:registro/models/Utente.dart';
 
 class HttpRequest {
   static Map<String, String> get _header => {"Authorization": Utente.token ?? "", "Content-Type": "application/json"};
-  static final String DOMINIO = kReleaseMode ? "https://registro-elettronico.vercel.app" : "http://192.168.1.148:5000";
+  static final String DOMINIO = kDebugMode ? "http://192.168.1.148:5000" : "https://registro-elettronico.vercel.app";
 
   static Future<String> get(String url) async {
     http.Response response = await http.get(Uri.parse(DOMINIO + url), headers: _header);

@@ -10,12 +10,12 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   TextEditingController _txtUsername = TextEditingController(), _txtPassword = TextEditingController();
-  String textBottone = "Autenticazione";
+  String textBottone = "Login";
   bool attiva = true;
 
   void login() async {
     setState(() {
-      textBottone = "Caricamento";
+      textBottone = "Autenticazione";
       attiva = false;
     });
     try {

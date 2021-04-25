@@ -7,7 +7,7 @@ export const materieRoutes = Router()
 
 materieRoutes.get("/", async (req, res)=>{
     try{
-        const materie = await new Pool().query("SELECT * FROM Materie");
+        const materie = await new Pool(dbImpostazioni).query("SELECT * FROM Materie");
 
         res.status(200).json(materie.rows);
     }
@@ -20,7 +20,7 @@ materieRoutes.get("/insegnate", controlloLoggato, controlloDocente, async (req, 
     const matricola = req.body.utenteLoggato.matricola
 
     try{
-        const materieInsegnate = await new Pool().query(`SELECT nomeMateria as nome, descrizione from Competenze natural join Materie where idDocente=${matricola}`)
+        const materieInsegnate = await new Pool(dbImpostazioni).query(`SELECT nomeMateria as nome, descrizione from Competenze natural join Materie where idDocente=${matricola}`)
         res.status(200).json(materieInsegnate.rows)
     }
     catch(e){

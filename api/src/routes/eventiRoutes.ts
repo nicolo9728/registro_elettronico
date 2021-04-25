@@ -8,7 +8,7 @@ eventiRoutes.get("/", controlloLoggato, async (req, res)=>{
     const data = req.query.data
         const matricola = req.body.utenteLoggato.matricola
         const tipo = req.body.utenteLoggato.tipo;
-        const pool = new Pool()
+        const pool = new Pool(dbImpostazioni)
     
         try{
             let risposta = {};

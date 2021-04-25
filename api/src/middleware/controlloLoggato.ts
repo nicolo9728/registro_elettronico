@@ -10,7 +10,7 @@ export const controlloLoggato = async (req:any, res:any, next:Function)=>{
         if(!username)
             throw new Error("token non valido o inesistente");
         
-        const ris = await new Pool().query("SELECT * FROM Utenti where username=$1", [username]);
+        const ris = await new Pool(dbImpostazioni).query("SELECT * FROM Utenti where username=$1", [username]);
         if(ris.rowCount != 0){
             req.body.utenteLoggato = {
                 matricola: ris.rows[0].matricola,

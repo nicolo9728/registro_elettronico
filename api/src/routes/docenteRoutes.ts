@@ -11,10 +11,10 @@ docenteRoutes.post("/aggiungiVoto", controlloLoggato, controlloDocente, async (r
 
     try {
         console.log({ matricola, idStudente })
-        const studentiCheInsegna = await new Pool().query(`SELECT 1 from Insegnamenti natural join Classi natural join Studenti where idDocente=${matricola} and idStudente=${idStudente}`)
+        const studentiCheInsegna = await new Pool(dbImpostazioni).query(`SELECT 1 from Insegnamenti natural join Classi natural join Studenti where idDocente=${matricola} and idStudente=${idStudente}`)
 
         if (studentiCheInsegna.rowCount > 0) {
-            await new Pool().query(`INSERT into VOTI (valutazione, descrizione, idDocente ,idStudente, nomeMateria, data) values ($1, $2, $3, $4, $5, $6)`, [valutazione, descrizione, matricola, idStudente, nomeMateria, data]);
+            await new Pool(dbImpostazioni).query(`INSERT into VOTI (valutazione, descrizione, idDocente ,idStudente, nomeMateria, data) values ($1, $2, $3, $4, $5, $6)`, [valutazione, descrizione, matricola, idStudente, nomeMateria, data]);
             res.status(200).send("successo")
         }
         else
@@ -29,7 +29,7 @@ docenteRoutes.post("/aggiungiVoto", controlloLoggato, controlloDocente, async (r
 docenteRoutes.get("/ottieniStudenti", controlloLoggato, controlloDocente, async (req, res) => {
     const matricola = req.body.utenteLoggato.matricola;
     const idClasse = req.query.idClasse;
-    const pool = new Pool()
+    const pool = new Pool(dbImpostazioni)
     try {
         const docentiDellaClasse = (await pool.query("select 1 from insegnamenti where idClasse=$1 and idDocente=$2", [idClasse, matricola]))
 
@@ -48,7 +48,7 @@ docenteRoutes.get("/ottieniStudenti", controlloLoggato, controlloDocente, async 
 docenteRoutes.get("/ottieniVoti", controlloLoggato, controlloDocente, async (req, res)=>{
     const matricola = req.body.utenteLoggato.matricola;
     const idStudente = parseInt(req.query.idStudente as string);
-    const pool = new Pool();
+    const pool = new Pool(dbImpostazioni);
     try{
         const ris = await pool.query("select 1 from Studenti natural join Classi natural join Insegnamenti where idDocente = $1 and Studenti.idStudente=$2", [matricola, idStudente]);
 
@@ -67,7 +67,7 @@ docenteRoutes.get("/ottieniVoti", controlloLoggato, controlloDocente, async (req
 docenteRoutes.post("/segnaPresenza", controlloLoggato, controlloDocente, async (req, res)=>{
     const matricola = req.body.utenteLoggato.matricola;
     const idStudente = req.body.idStudente;
-    const pool = new Pool();
+    const pool = new Pool(dbImpostazioni);
 
     try{
         const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])
@@ -87,7 +87,7 @@ docenteRoutes.post("/segnaEntrata", controlloLoggato, controlloDocente, async (r
     const matricola = req.body.utenteLoggato.matricola
     const idStudente = req.body.idStudente
     const entrata = req.body.entrata
-    const pool = new Pool()
+    const pool = new Pool(dbImpostazioni)
 
     try{
         const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])
@@ -107,7 +107,7 @@ docenteRoutes.post("/segnaUscita", controlloLoggato, controlloDocente, async (re
     const matricola = req.body.utenteLoggato.matricola
     const idStudente = req.body.idStudente
     const uscita = req.body.uscita
-    const pool = new Pool()
+    const pool = new Pool(dbImpostazioni)
 
     try{
         const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])
@@ -129,7 +129,7 @@ docenteRoutes.post("/segnaUscita", controlloLoggato, controlloDocente, async (re
 docenteRoutes.post("/cancellaPresenza", controlloLoggato, controlloDocente, async (req, res)=>{
     const matricola = req.body.utenteLoggato.matricola
     const idStudente = req.body.idStudente
-    const pool = new Pool();
+    const pool = new Pool(dbImpostazioni);
 
     try{
         const queryStudente = await pool.query("SELECT 1 from Studenti natural join classi natural join Insegnamenti where idStudente=$1 and idDocente=$2", [idStudente, matricola])

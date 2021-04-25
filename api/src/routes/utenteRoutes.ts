@@ -36,7 +36,7 @@ utenteRoutes.get("/", controlloLoggato, async (req, res) => {
 
     try {
         
-        const pool = new Pool()
+        const pool = new Pool(dbImpostazioni)
 
         const risultato = await pool.query(`select matricola, username, tipo, nomeSede from Utenti where matricola=$1`, [id]);
         let utente = risultato.rows[0];
@@ -84,7 +84,7 @@ utenteRoutes.post("/aggiornaPassword", controlloLoggato, async (req, res) => {
 
         const salt = await genSalt()
         nuovaPassword = await hash(nuovaPassword, salt)
-        await new Pool().query(`UPDATE Utenti SET password = $1 where matricola=$2`, [nuovaPassword, matricola])
+        await new Pool(dbImpostazioni).query(`UPDATE Utenti SET password = $1 where matricola=$2`, [nuovaPassword, matricola])
 
         res.status(200).send("password modificata con successo");
     }

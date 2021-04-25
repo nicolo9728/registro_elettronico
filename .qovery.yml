@@ -1,0 +1,15 @@
+---
+application:
+  name: "registro-elettronico"
+  project: "registro elettronico"
+  organization: "QoveryCommunity"
+databases:
+- type: "POSTGRESQL"
+  name: "registro"
+  version: "11"
+routers:
+- name: "main-registro-elettronico"
+  routes:
+  - application_name: "registro-elettronico"
+    paths:
+    - "/*"

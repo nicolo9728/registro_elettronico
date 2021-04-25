@@ -5,7 +5,7 @@
 -- Dumped from database version 13.1
 -- Dumped by pg_dump version 13.1
 
--- Started on 2021-04-23 17:42:42
+-- Started on 2021-04-25 12:57:56
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -20,7 +20,7 @@ SET row_security = off;
 
 --
 -- TOC entry 212 (class 1259 OID 33725)
--- Name: seq_circolari; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: seq_circolari; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.seq_circolari
@@ -31,15 +31,11 @@ CREATE SEQUENCE public.seq_circolari
     CACHE 1;
 
 
-ALTER TABLE public.seq_circolari OWNER TO postgres;
-
-SET default_tablespace = '';
-
 SET default_table_access_method = heap;
 
 --
 -- TOC entry 213 (class 1259 OID 33727)
--- Name: circolari; Type: TABLE; Schema: public; Owner: postgres
+-- Name: circolari; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.circolari (
@@ -51,11 +47,9 @@ CREATE TABLE public.circolari (
 );
 
 
-ALTER TABLE public.circolari OWNER TO postgres;
-
 --
 -- TOC entry 202 (class 1259 OID 33392)
--- Name: seq_classe; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: seq_classe; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.seq_classe
@@ -66,11 +60,9 @@ CREATE SEQUENCE public.seq_classe
     CACHE 1;
 
 
-ALTER TABLE public.seq_classe OWNER TO postgres;
-
 --
 -- TOC entry 203 (class 1259 OID 33394)
--- Name: classi; Type: TABLE; Schema: public; Owner: postgres
+-- Name: classi; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.classi (
@@ -81,11 +73,9 @@ CREATE TABLE public.classi (
 );
 
 
-ALTER TABLE public.classi OWNER TO postgres;
-
 --
 -- TOC entry 208 (class 1259 OID 33470)
--- Name: competenze; Type: TABLE; Schema: public; Owner: postgres
+-- Name: competenze; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.competenze (
@@ -94,11 +84,9 @@ CREATE TABLE public.competenze (
 );
 
 
-ALTER TABLE public.competenze OWNER TO postgres;
-
 --
 -- TOC entry 204 (class 1259 OID 33409)
--- Name: docenti; Type: TABLE; Schema: public; Owner: postgres
+-- Name: docenti; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.docenti (
@@ -110,11 +98,9 @@ CREATE TABLE public.docenti (
 );
 
 
-ALTER TABLE public.docenti OWNER TO postgres;
-
 --
 -- TOC entry 205 (class 1259 OID 33420)
--- Name: insegnamenti; Type: TABLE; Schema: public; Owner: postgres
+-- Name: insegnamenti; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.insegnamenti (
@@ -123,11 +109,9 @@ CREATE TABLE public.insegnamenti (
 );
 
 
-ALTER TABLE public.insegnamenti OWNER TO postgres;
-
 --
 -- TOC entry 207 (class 1259 OID 33450)
--- Name: materie; Type: TABLE; Schema: public; Owner: postgres
+-- Name: materie; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.materie (
@@ -136,27 +120,24 @@ CREATE TABLE public.materie (
 );
 
 
-ALTER TABLE public.materie OWNER TO postgres;
-
 --
--- TOC entry 214 (class 1259 OID 33801)
--- Name: presenze; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 214 (class 1259 OID 34290)
+-- Name: presenze; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.presenze (
     idstudente integer NOT NULL,
     iddocente integer NOT NULL,
+    entrata integer DEFAULT 1 NOT NULL,
+    uscita integer DEFAULT 6 NOT NULL,
     data date NOT NULL,
-    tipo character(4) NOT NULL,
-    CONSTRAINT presenze_tipo_check CHECK ((tipo = ANY (ARRAY['pres'::bpchar, 'entr'::bpchar, 'usci'::bpchar])))
+    CONSTRAINT presenze_check CHECK ((entrata < uscita))
 );
 
 
-ALTER TABLE public.presenze OWNER TO postgres;
-
 --
 -- TOC entry 211 (class 1259 OID 33621)
--- Name: sedi; Type: TABLE; Schema: public; Owner: postgres
+-- Name: sedi; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.sedi (
@@ -165,11 +146,9 @@ CREATE TABLE public.sedi (
 );
 
 
-ALTER TABLE public.sedi OWNER TO postgres;
-
 --
 -- TOC entry 200 (class 1259 OID 33384)
--- Name: seq_utenti; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: seq_utenti; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.seq_utenti
@@ -180,11 +159,9 @@ CREATE SEQUENCE public.seq_utenti
     CACHE 1;
 
 
-ALTER TABLE public.seq_utenti OWNER TO postgres;
-
 --
 -- TOC entry 209 (class 1259 OID 33504)
--- Name: seq_voti; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: seq_voti; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.seq_voti
@@ -195,11 +172,9 @@ CREATE SEQUENCE public.seq_voti
     CACHE 1;
 
 
-ALTER TABLE public.seq_voti OWNER TO postgres;
-
 --
 -- TOC entry 206 (class 1259 OID 33435)
--- Name: studenti; Type: TABLE; Schema: public; Owner: postgres
+-- Name: studenti; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.studenti (
@@ -211,11 +186,9 @@ CREATE TABLE public.studenti (
 );
 
 
-ALTER TABLE public.studenti OWNER TO postgres;
-
 --
 -- TOC entry 201 (class 1259 OID 33386)
--- Name: utenti; Type: TABLE; Schema: public; Owner: postgres
+-- Name: utenti; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.utenti (
@@ -228,11 +201,9 @@ CREATE TABLE public.utenti (
 );
 
 
-ALTER TABLE public.utenti OWNER TO postgres;
-
 --
 -- TOC entry 210 (class 1259 OID 33506)
--- Name: voti; Type: TABLE; Schema: public; Owner: postgres
+-- Name: voti; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.voti (
@@ -247,11 +218,9 @@ CREATE TABLE public.voti (
 );
 
 
-ALTER TABLE public.voti OWNER TO postgres;
-
 --
--- TOC entry 2927 (class 2606 OID 33732)
--- Name: circolari circolari_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2929 (class 2606 OID 33732)
+-- Name: circolari circolari_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.circolari
@@ -259,8 +228,8 @@ ALTER TABLE ONLY public.circolari
 
 
 --
--- TOC entry 2911 (class 2606 OID 33399)
--- Name: classi classi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2913 (class 2606 OID 33399)
+-- Name: classi classi_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.classi
@@ -268,8 +237,8 @@ ALTER TABLE ONLY public.classi
 
 
 --
--- TOC entry 2921 (class 2606 OID 33474)
--- Name: competenze competenze_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2923 (class 2606 OID 33474)
+-- Name: competenze competenze_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.competenze
@@ -277,8 +246,8 @@ ALTER TABLE ONLY public.competenze
 
 
 --
--- TOC entry 2913 (class 2606 OID 33414)
--- Name: docenti docenti_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2915 (class 2606 OID 33414)
+-- Name: docenti docenti_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.docenti
@@ -286,8 +255,8 @@ ALTER TABLE ONLY public.docenti
 
 
 --
--- TOC entry 2915 (class 2606 OID 33424)
--- Name: insegnamenti insegnamenti_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2917 (class 2606 OID 33424)
+-- Name: insegnamenti insegnamenti_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.insegnamenti
@@ -295,8 +264,8 @@ ALTER TABLE ONLY public.insegnamenti
 
 
 --
--- TOC entry 2919 (class 2606 OID 33454)
--- Name: materie materie_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2921 (class 2606 OID 33454)
+-- Name: materie materie_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.materie
@@ -304,17 +273,17 @@ ALTER TABLE ONLY public.materie
 
 
 --
--- TOC entry 2929 (class 2606 OID 33806)
--- Name: presenze presenze_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2931 (class 2606 OID 34296)
+-- Name: presenze presenze_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.presenze
-    ADD CONSTRAINT presenze_pkey PRIMARY KEY (idstudente, tipo, data);
+    ADD CONSTRAINT presenze_pkey PRIMARY KEY (idstudente, data);
 
 
 --
--- TOC entry 2925 (class 2606 OID 33625)
--- Name: sedi sedi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2927 (class 2606 OID 33625)
+-- Name: sedi sedi_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sedi
@@ -322,8 +291,8 @@ ALTER TABLE ONLY public.sedi
 
 
 --
--- TOC entry 2917 (class 2606 OID 33439)
--- Name: studenti studenti_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2919 (class 2606 OID 33439)
+-- Name: studenti studenti_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.studenti
@@ -331,8 +300,8 @@ ALTER TABLE ONLY public.studenti
 
 
 --
--- TOC entry 2907 (class 2606 OID 33391)
--- Name: utenti utenti_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2909 (class 2606 OID 33391)
+-- Name: utenti utenti_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.utenti
@@ -340,8 +309,8 @@ ALTER TABLE ONLY public.utenti
 
 
 --
--- TOC entry 2909 (class 2606 OID 33530)
--- Name: utenti utenti_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2911 (class 2606 OID 33530)
+-- Name: utenti utenti_username_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.utenti
@@ -349,8 +318,8 @@ ALTER TABLE ONLY public.utenti
 
 
 --
--- TOC entry 2923 (class 2606 OID 33512)
--- Name: voti voti_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2925 (class 2606 OID 33512)
+-- Name: voti voti_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.voti
@@ -358,8 +327,8 @@ ALTER TABLE ONLY public.voti
 
 
 --
--- TOC entry 2942 (class 2606 OID 33733)
--- Name: circolari circolari_idadmin_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2944 (class 2606 OID 33733)
+-- Name: circolari circolari_idadmin_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.circolari
@@ -367,8 +336,8 @@ ALTER TABLE ONLY public.circolari
 
 
 --
--- TOC entry 2943 (class 2606 OID 33738)
--- Name: circolari circolari_nomesede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2945 (class 2606 OID 33738)
+-- Name: circolari circolari_nomesede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.circolari
@@ -376,8 +345,8 @@ ALTER TABLE ONLY public.circolari
 
 
 --
--- TOC entry 2931 (class 2606 OID 33653)
--- Name: classi classi_nomesede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2933 (class 2606 OID 33653)
+-- Name: classi classi_nomesede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.classi
@@ -385,8 +354,8 @@ ALTER TABLE ONLY public.classi
 
 
 --
--- TOC entry 2938 (class 2606 OID 33480)
--- Name: competenze competenze_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2940 (class 2606 OID 33480)
+-- Name: competenze competenze_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.competenze
@@ -394,8 +363,8 @@ ALTER TABLE ONLY public.competenze
 
 
 --
--- TOC entry 2937 (class 2606 OID 33475)
--- Name: competenze competenze_nomemateria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2939 (class 2606 OID 33475)
+-- Name: competenze competenze_nomemateria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.competenze
@@ -403,8 +372,8 @@ ALTER TABLE ONLY public.competenze
 
 
 --
--- TOC entry 2932 (class 2606 OID 33415)
--- Name: docenti docenti_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2934 (class 2606 OID 33415)
+-- Name: docenti docenti_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.docenti
@@ -412,8 +381,8 @@ ALTER TABLE ONLY public.docenti
 
 
 --
--- TOC entry 2934 (class 2606 OID 33430)
--- Name: insegnamenti insegnamenti_idclasse_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2936 (class 2606 OID 33430)
+-- Name: insegnamenti insegnamenti_idclasse_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.insegnamenti
@@ -421,8 +390,8 @@ ALTER TABLE ONLY public.insegnamenti
 
 
 --
--- TOC entry 2933 (class 2606 OID 33425)
--- Name: insegnamenti insegnamenti_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2935 (class 2606 OID 33425)
+-- Name: insegnamenti insegnamenti_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.insegnamenti
@@ -430,8 +399,8 @@ ALTER TABLE ONLY public.insegnamenti
 
 
 --
--- TOC entry 2945 (class 2606 OID 33812)
--- Name: presenze presenze_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2947 (class 2606 OID 34302)
+-- Name: presenze presenze_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.presenze
@@ -439,8 +408,8 @@ ALTER TABLE ONLY public.presenze
 
 
 --
--- TOC entry 2944 (class 2606 OID 33807)
--- Name: presenze presenze_idstudente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2946 (class 2606 OID 34297)
+-- Name: presenze presenze_idstudente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.presenze
@@ -448,8 +417,8 @@ ALTER TABLE ONLY public.presenze
 
 
 --
--- TOC entry 2936 (class 2606 OID 33445)
--- Name: studenti studenti_idclasse_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2938 (class 2606 OID 33445)
+-- Name: studenti studenti_idclasse_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.studenti
@@ -457,8 +426,8 @@ ALTER TABLE ONLY public.studenti
 
 
 --
--- TOC entry 2935 (class 2606 OID 33440)
--- Name: studenti studenti_idstudente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2937 (class 2606 OID 33440)
+-- Name: studenti studenti_idstudente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.studenti
@@ -466,8 +435,8 @@ ALTER TABLE ONLY public.studenti
 
 
 --
--- TOC entry 2930 (class 2606 OID 33642)
--- Name: utenti utenti_nomesede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2932 (class 2606 OID 33642)
+-- Name: utenti utenti_nomesede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.utenti
@@ -475,8 +444,8 @@ ALTER TABLE ONLY public.utenti
 
 
 --
--- TOC entry 2940 (class 2606 OID 33518)
--- Name: voti voti_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2942 (class 2606 OID 33518)
+-- Name: voti voti_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.voti
@@ -484,8 +453,8 @@ ALTER TABLE ONLY public.voti
 
 
 --
--- TOC entry 2939 (class 2606 OID 33513)
--- Name: voti voti_idstudente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2941 (class 2606 OID 33513)
+-- Name: voti voti_idstudente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.voti
@@ -493,14 +462,15 @@ ALTER TABLE ONLY public.voti
 
 
 --
--- TOC entry 2941 (class 2606 OID 33523)
--- Name: voti voti_nomemateria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2943 (class 2606 OID 33523)
+-- Name: voti voti_nomemateria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.voti
     ADD CONSTRAINT voti_nomemateria_fkey FOREIGN KEY (nomemateria) REFERENCES public.materie(nomemateria);
 
--- Completed on 2021-04-23 17:42:43
+
+-- Completed on 2021-04-25 12:57:56
 
 --
 -- PostgreSQL database dump complete

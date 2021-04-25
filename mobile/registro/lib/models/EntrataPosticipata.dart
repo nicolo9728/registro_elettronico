@@ -14,6 +14,8 @@ class EntrataPosticipata extends Presenza {
 
   int get entrata => _entrata;
   set entrata(int entrata) {
+    if (entrata == null) throw new ArgumentError("ora di entrata non selezionata");
+
     if (entrata > 1)
       _entrata = entrata;
     else

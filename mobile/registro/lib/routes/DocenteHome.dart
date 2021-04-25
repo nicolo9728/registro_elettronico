@@ -37,7 +37,10 @@ class _DocenteHomeState extends State<DocenteHome> {
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: DropdownButton<Classe>(
                   isDense: false,
-                  hint: Text("sez."),
+                  hint: Text(
+                    "sez.",
+                    style: TextStyle(color: Colors.black),
+                  ),
                   items: _docente
                       .map((classe) => DropdownMenuItem<Classe>(
                           value: classe,

@@ -1,4 +1,4 @@
-import { genSalt, hash } from "bcrypt";
+import { genSalt, hash } from "bcryptjs";
 import { Router } from "express";
 import { sign } from "jsonwebtoken";
 import { Pool } from "pg";

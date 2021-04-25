@@ -1,5 +1,6 @@
 import { verify } from "jsonwebtoken";
 import { Pool } from "pg";
+import { dbImpostazioni } from "../conf";
 
 export const controlloLoggato = async (req:any, res:any, next:Function)=>{
     const token = req.headers["authorization"];

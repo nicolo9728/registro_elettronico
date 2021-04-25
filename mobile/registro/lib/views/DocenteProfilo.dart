@@ -11,34 +11,36 @@ class DocenteProfilo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ProfiloGeneralita(
-            utente: docente,
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          VisualizzatoreParametri(
-            parametri: docente.map((element) => element).toList(),
-            titolo: "Classi",
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          VisualizzatoreParametri(
-            parametri: docente.materie,
-            titolo: "Materie",
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Disconnetti()
-        ],
+    return SingleChildScrollView(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ProfiloGeneralita(
+              utente: docente,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            VisualizzatoreParametri(
+              parametri: docente.map((element) => element).toList(),
+              titolo: "Classi",
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            VisualizzatoreParametri(
+              parametri: docente.materie,
+              titolo: "Materie",
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Disconnetti()
+          ],
+        ),
       ),
     );
   }

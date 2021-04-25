@@ -4,6 +4,7 @@ import 'package:registro/models/Classe.dart';
 import 'package:registro/models/Docente.dart';
 import 'package:registro/models/Studente.dart';
 import 'package:registro/models/Utente.dart';
+import 'package:registro/routes/Caricamento.dart';
 import 'package:registro/routes/GestioneStudente.dart';
 import 'package:registro/views/StudenteItem.dart';
 import 'AggiungiVoto.dart';
@@ -70,19 +71,33 @@ class _DocenteHomeState extends State<DocenteHome> {
               await _classeSelezionata.scaricaStudenti();
               setState(() {});
             },
-            child: ListView.builder(
-                itemCount: _classeSelezionata?.numeroStudenti ?? 0,
-                itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.only(bottom: 15),
-                      child: StudenteItem(
-                        studente: _classeSelezionata[index],
-                        onTap: () async {
-                          Studente studente = _classeSelezionata[index];
-                          await Navigator.of(context).push(MaterialPageRoute(builder: (context) => GestioneStudente(studente)));
-                          setState(() {});
-                        },
+            child: FutureBuilder(
+                future: _classeSelezionata?.scaricaStudenti() ?? null,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done)
+                    return ListView.builder(
+                        itemCount: _classeSelezionata?.numeroStudenti ?? 0,
+                        itemBuilder: (context, index) => Padding(
+                              padding: EdgeInsets.only(bottom: 15),
+                              child: StudenteItem(
+                                studente: _classeSelezionata[index],
+                                onTap: () async {
+                                  Studente studente = _classeSelezionata[index];
+                                  await Navigator.of(context).push(MaterialPageRoute(builder: (context) => GestioneStudente(studente)));
+                                  setState(() {});
+                                },
+                              ),
+                            ));
+                  else if (snapshot.connectionState == ConnectionState.waiting)
+                    return Caricamento();
+                  else
+                    return Center(
+                      child: Text(
+                        "Seleziona una classe",
+                        style: TextStyle(fontSize: 30),
                       ),
-                    )),
+                    );
+                }),
           ))
         ],
       ),

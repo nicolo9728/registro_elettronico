@@ -1,1 +1,1 @@
-export const dbImpostazioni = {ssl: {rejectUnauthorized: false}}
+export const dbImpostazioni = process.env.NODE_ENV === 'production'? {ssl: {rejectUnauthorized: false}}: {}

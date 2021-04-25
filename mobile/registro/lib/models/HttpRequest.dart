@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:registro/models/Utente.dart';
 
 class HttpRequest {
   static Map<String, String> get _header => {"Authorization": Utente.token ?? "", "Content-Type": "application/json"};
-  static final String DOMINIO = "https://registro-elettronico.vercel.app";
+  static final String DOMINIO = kReleaseMode ? "https://registro-elettronico.vercel.app" : "http://192.168.1.148:5000";
 
   static Future<String> get(String url) async {
     http.Response response = await http.get(Uri.parse(DOMINIO + url), headers: _header);

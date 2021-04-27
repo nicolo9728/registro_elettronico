@@ -38,7 +38,7 @@ class CircolareWidget extends StatelessWidget {
                     width: 300,
                     child: Text(
                       circolare.contenuto,
-                      maxLines: 1,
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
                   )
@@ -47,7 +47,7 @@ class CircolareWidget extends StatelessWidget {
               Expanded(
                 child: Text(
                   circolare.nomeSede,
-                  textAlign: TextAlign.right,
+                  textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
               )

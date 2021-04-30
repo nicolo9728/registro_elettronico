@@ -54,7 +54,7 @@ docenteRoutes.get("/ottieniVoti", controlloLoggato, controlloDocente, async (req
         const ris = await pool.query("select 1 from Studenti natural join Classi natural join Insegnamenti where idDocente = $1 and Studenti.idStudente=$2", [matricola, idStudente]);
 
         if(ris.rowCount > 0){
-            const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti where idStudente=$1", [idStudente])).rows
+            const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti inner join Utenti on (matricola = idDocente) where idStudente=$1", [idStudente])).rows
             res.status(200).json(voti)
         }
         else

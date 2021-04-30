@@ -41,6 +41,8 @@ class GestoreVoti with IterableMixin<GruppoVoti> {
       });
     });
 
+    voti.sort();
+
     return voti;
   }
 

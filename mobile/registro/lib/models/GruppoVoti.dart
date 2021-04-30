@@ -22,6 +22,7 @@ class GruppoVoti with IterableMixin<Voto> {
 
   void aggiungiVoto(Voto voto) {
     _voti.add(voto);
+    _voti.sort();
   }
 
   double get media {

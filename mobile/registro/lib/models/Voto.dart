@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:registro/models/IEvento.dart';
 import 'package:registro/views/VotoWidget.dart';
 
-class Voto implements IEvento {
+class Voto implements Comparable, IEvento {
   int _valutazione;
   DateTime _data;
   String _nomeMateria, _descrizione;
@@ -71,4 +71,10 @@ class Voto implements IEvento {
 
   @override
   IconData get icona => Icons.article_outlined;
+
+  @override
+  int compareTo(other) {
+    Voto v = other;
+    return _data.compareTo(v._data);
+  }
 }

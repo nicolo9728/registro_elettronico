@@ -79,10 +79,10 @@ adminsRoutes.post("/aggiungiStudente", controlloLoggato ,controlloAdmin , async 
         const risultato = await new Pool(dbImpostazioni).query("INSERT into UTENTI (username, password, tipo, nomeSede, nome, cognome, dataNascita) values($1, $2, 'Studente', $3, $4, $5, $6) returning matricola", [username, passwordhash, nomeSede, nome, cognome, dataNascita])
         matricola = risultato.rows[0].matricola
 
-        await new Pool(dbImpostazioni).query("INSERT into STUDENTI (idStudente) values ($1)", [matricola])
+        await new Pool(dbImpostazioni).query("INSERT into STUDENTI (idStudente, idClasse) values ($1, $2)", [matricola, idClasse])
 
         const token = sign(username, <string> process.env.JWTPASSWORD)
-        res.status(200).send(token)
+        res.status(200).send("successo")
     }
     catch(e){
         if(matricola)

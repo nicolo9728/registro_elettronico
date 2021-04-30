@@ -38,27 +38,23 @@ utenteRoutes.get("/", controlloLoggato, async (req, res) => {
         
         const pool = new Pool(dbImpostazioni)
 
-        const risultato = await pool.query(`select matricola, username, tipo, nomeSede from Utenti where matricola=$1`, [id]);
+        const risultato = await pool.query(`select matricola, username, tipo, nomeSede, nome, cognome, dataNascita from Utenti where matricola=$1`, [id]);
         let utente = risultato.rows[0];
 
         if(!utente)
             throw new Error("utente non trovato")
 
         if(utente.tipo == "Docente"){
-            const dati = await pool.query("select * from Docenti where idDocente=$1", [id])
             const materieInsegnate = (await pool.query("select nomeMateria as nome, descrizione from Docenti natural join competenze natural join materie where idDocente=$1", [utente.matricola])).rows
             const classi = (await pool.query("select idClasse, anno || sezione as nome from Docenti natural join insegnamenti natural join classi where idDocente=$1", [utente.matricola])).rows
-            utente = {
-                ...utente,
-                ...dati.rows[0]
-            }
+
             utente.materie = materieInsegnate
             utente.classi = classi
         }
 
         if(utente.tipo == "Studente"){
-            const dati = await pool.query("select nome, cognome, dataNascita, entrata, uscita from Studenti left join Presenze on (Presenze.idStudente=$1 and Presenze.data=$2) where Studenti.idStudente=$1", [id, new Date()]);
-            const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti where idStudente=$1", [id])).rows
+            const dati = await pool.query("select entrata, uscita from Studenti left join Presenze on (Presenze.idStudente=$1 and Presenze.data=$2) where Studenti.idStudente=$1", [id, new Date()]);
+            const voti = (await pool.query("select valutazione, descrizione, data, nomeMateria, nome as NomeDocente from voti natural join docenti inner join Utenti on (idStudente = matricola) where idStudente=$1", [id])).rows
             utente = {
                 ...utente,
                 ...dati.rows[0]

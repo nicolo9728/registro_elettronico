@@ -44,12 +44,12 @@ adminsRoutes.post("/aggiungiDocente", controlloLoggato, controlloAdmin , async (
         const passwordCriptata = await hash(password, salt)
 
         const risultato = await new Pool(dbImpostazioni).query(
-            "INSERT into Utenti (username, password, tipo) values ($1, $2, 'Docente', $3) returning matricola",
-            [username, passwordCriptata, nomeSede]
+            "INSERT into Utenti (username, password, tipo, nome, cognome, dataNascita) values ($1, $2, 'Docente', $3, $4, $5, $6) returning matricola",
+            [username, passwordCriptata, nomeSede, nome, cognome, dataNascita]
         )
 
         matricola = risultato.rows[0].matricola
-        await new Pool(dbImpostazioni).query(`INSERT into Docenti (idDocente, nome, cognome, dataNascita) values($1, $2, $3, $4)`, [matricola, nome, cognome, dataNascita])
+        await new Pool(dbImpostazioni).query(`INSERT into Docenti (idDocente) values($1)`, [matricola, nome, cognome, dataNascita])
 
         const token = sign(username,<string>process.env.JWTPASSWORD)
 
@@ -76,10 +76,10 @@ adminsRoutes.post("/aggiungiStudente", controlloLoggato ,controlloAdmin , async 
             throw new Error("la sede dello studente non corrisponde con la sede della classe")
 
 
-        const risultato = await new Pool(dbImpostazioni).query("INSERT into UTENTI (username, password, tipo, nomeSede) values($1, $2, 'Studente', $3) returning matricola", [username, passwordhash, nomeSede])
+        const risultato = await new Pool(dbImpostazioni).query("INSERT into UTENTI (username, password, tipo, nomeSede, nome, cognome, dataNascita) values($1, $2, 'Studente', $3, $4, $5, $6) returning matricola", [username, passwordhash, nomeSede, nome, cognome, dataNascita])
         matricola = risultato.rows[0].matricola
 
-        await new Pool(dbImpostazioni).query("INSERT into STUDENTI (idStudente, nome, cognome, dataNascita, idClasse) values ($1, $2, $3, $4, $5)", [matricola, nome, cognome, dataNascita, idClasse])
+        await new Pool(dbImpostazioni).query("INSERT into STUDENTI (idStudente) values ($1)", [matricola])
 
         const token = sign(username, <string> process.env.JWTPASSWORD)
         res.status(200).send(token)
@@ -93,12 +93,12 @@ adminsRoutes.post("/aggiungiStudente", controlloLoggato ,controlloAdmin , async 
 })
 
 adminsRoutes.post("/", controlloLoggato, controlloAdmin ,async (req, res)=>{
-    const {username, password} = req.body
+    const {username, password, nome, cognome, dataNascita} = req.body
 
     const passwordHash = await hash(password, await genSalt(10))
 
     try{
-        const ris = await new Pool(dbImpostazioni).query("INSERT into Utenti (username, password, tipo) values ($1, $2, $3)", [username, passwordHash, "Admin"])
+        const ris = await new Pool(dbImpostazioni).query("INSERT into Utenti (username, password, tipo, nome, cognome, dataNascita) values ($1, $2, $3, $4, $5, $6)", [username, passwordHash, "Admin", nome, cognome, dataNascita])
         const token = sign(username, <string>process.env.JWTPASSWORD)
         res.status(200).send(token)
     }

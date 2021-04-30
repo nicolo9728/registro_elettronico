@@ -14,8 +14,8 @@ eventiRoutes.get("/", controlloLoggato, async (req, res)=>{
         try{
             let risposta = {};
             if(tipo == "Studente"){
-                const queryVoti = await pool.query("select valutazione, descrizione, data, nomeMateria, nome from Voti natural join Docenti where idStudente=$1 and data=$2", [matricola, data])
-                const queryPresenze = await pool.query("select idStudente, entrata, uscita,data, nome as nomeDocente, cognome as cognomeDocente from presenze natural join Docenti where idStudente=$1 and data=$2", [matricola, data])
+                const queryVoti = await pool.query("select valutazione, descrizione, data, nomeMateria, nome from Voti natural join Docenti inner join Utenti on (idStudente=matricola) where idStudente=$1 and data=$2", [matricola, data])
+                const queryPresenze = await pool.query("select idStudente, entrata, uscita,data, nome as nomeDocente, cognome as cognomeDocente from presenze natural join Docenti inner join Utenti on (idStudente=matricola) where idStudente=$1 and data=$2", [matricola, data])
         
                 risposta = {
                     voti: queryVoti.rows,
@@ -23,7 +23,7 @@ eventiRoutes.get("/", controlloLoggato, async (req, res)=>{
                 }
             }
             else{
-                const queryVoti = await pool.query("select valutazione, descrizione, data, nomeMateria, nome from Voti natural join Studenti where idDocente=$1 and data=$2", [matricola, data])
+                const queryVoti = await pool.query("select valutazione, descrizione, data, nomeMateria, nome from Voti natural join Studenti inner join Utenti on (idStudente=matricola) where idDocente=$1 and data=$2", [matricola, data])
                 risposta = {
                     voti: queryVoti.rows
                 }

@@ -39,6 +39,7 @@ class Docente extends Utente with IterableMixin<Classe> {
     dati.forEach((element) {
       voti.add(new Voto.fromData(element));
     });
+    voti.sort();
     return voti;
   }
 

@@ -75,6 +75,6 @@ class Voto implements Comparable, IEvento {
   @override
   int compareTo(other) {
     Voto v = other;
-    return _data.compareTo(v._data);
+    return _data.compareTo(v._data) * -1;
   }
 }

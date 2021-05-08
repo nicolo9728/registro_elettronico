@@ -1,478 +1,119 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 13.1
--- Dumped by pg_dump version 13.1
-
--- Started on 2021-04-25 12:57:56
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- TOC entry 212 (class 1259 OID 33725)
--- Name: seq_circolari; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.seq_circolari
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-SET default_table_access_method = heap;
-
---
--- TOC entry 213 (class 1259 OID 33727)
--- Name: circolari; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.circolari (
-    numero integer DEFAULT nextval('public.seq_circolari'::regclass) NOT NULL,
-    titolo character varying(20),
-    contenuto character varying(100),
-    idadmin integer NOT NULL,
-    nomesede character varying(30) NOT NULL
+create table Sedi(
+    nomeSede char(3) not null primary key,
+    descrizione varchar(50) not null
 );
 
+create sequence seq_utenti;
 
---
--- TOC entry 202 (class 1259 OID 33392)
--- Name: seq_classe; Type: SEQUENCE; Schema: public; Owner: -
---
+create table Utenti(
+    matricola int not null primary key default nextval('seq_utenti'),
+    nome varchar(30) not null,
+    cognome varchar(30) not null,
+    dataNascita Date not null,
+    username varchar(30) not null,
+    password char(60) not null,
+    tipo varchar(10) not null,
+    nomeSede char(3) not null,
 
-CREATE SEQUENCE public.seq_classe
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 203 (class 1259 OID 33394)
--- Name: classi; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.classi (
-    idclasse integer DEFAULT nextval('public.seq_classe'::regclass) NOT NULL,
-    anno integer NOT NULL,
-    sezione character(2) NOT NULL,
-    nomesede character varying(30) DEFAULT 'ITI'::character varying NOT NULL
+    foreign key (nomeSede) references Sedi,
+    check(tipo in ('Docente', 'Studente', 'Admin'))
 );
 
-
---
--- TOC entry 208 (class 1259 OID 33470)
--- Name: competenze; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.competenze (
-    nomemateria character varying(30) NOT NULL,
-    iddocente integer NOT NULL
+create table Admins(
+    idAdmin int not null primary key,
+    foreign key (idAdmin) references Utenti
 );
 
+create sequence seq_circolari;
 
---
--- TOC entry 204 (class 1259 OID 33409)
--- Name: docenti; Type: TABLE; Schema: public; Owner: -
---
+create table Circolari(
+    numero int not null primary key default nextval('seq_circolari'),
+    contenuto varchar(100) not null,
+    titolo varchar(20) not null,
+    idAdmin int not null,
+    nomeSede char(3) not null,
 
-CREATE TABLE public.docenti (
-    iddocente integer NOT NULL,
-    nome character varying(30) NOT NULL,
-    cognome character varying(30) NOT NULL,
-    datanascita date NOT NULL,
-    CONSTRAINT docenti_datanascita_check CHECK ((datanascita < CURRENT_DATE))
+    foreign key (idAdmin) references Admins,
+    foreign key (nomeSede) references Sedi
 );
 
+create sequence seq_classi;
 
---
--- TOC entry 205 (class 1259 OID 33420)
--- Name: insegnamenti; Type: TABLE; Schema: public; Owner: -
---
+create table Classi(
+    idClasse int not null primary key default nextval('seq_classi'),
+    anno int not null,
+    sezione char(2) not null,
+    nomeSede char(3) not null,
 
-CREATE TABLE public.insegnamenti (
-    iddocente integer NOT NULL,
-    idclasse integer NOT NULL
+    foreign key (nomeSede) references Sedi
 );
 
+create table Studenti(
+    idStudente int not null primary key,
+    idClasse int not null,
 
---
--- TOC entry 207 (class 1259 OID 33450)
--- Name: materie; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.materie (
-    nomemateria character varying(30) NOT NULL,
-    descrizione character varying(50)
+    foreign key (idStudente) references Utenti,
+    foreign key (idClasse) references Classi
 );
 
+create table Docenti(
+    idDocente int not null primary key,
 
---
--- TOC entry 214 (class 1259 OID 34290)
--- Name: presenze; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.presenze (
-    idstudente integer NOT NULL,
-    iddocente integer NOT NULL,
-    entrata integer DEFAULT 1 NOT NULL,
-    uscita integer DEFAULT 6 NOT NULL,
-    data date NOT NULL,
-    CONSTRAINT presenze_check CHECK ((entrata < uscita))
+    foreign key (idDocente) references Utenti
 );
 
+create table Insegnamenti(
+    idClasse int not null,
+    idDocente int not null,
 
---
--- TOC entry 211 (class 1259 OID 33621)
--- Name: sedi; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.sedi (
-    nomesede character varying(30) NOT NULL,
-    descrizione character varying(50)
+    primary key(idClasse, idDocente),
+    foreign key (idClasse) references Classi,
+    foreign key (idDocente) references Docenti
 );
 
+create table Presenze(
+    data Date not null,
+    idStudente int not null,
+    entrata int not null default 1,
+    uscita int not null default 6,
+    idDocente int not null,
 
---
--- TOC entry 200 (class 1259 OID 33384)
--- Name: seq_utenti; Type: SEQUENCE; Schema: public; Owner: -
---
+    check(entrata > 0),
+    check(uscita >= entrata),
 
-CREATE SEQUENCE public.seq_utenti
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 209 (class 1259 OID 33504)
--- Name: seq_voti; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.seq_voti
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 206 (class 1259 OID 33435)
--- Name: studenti; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.studenti (
-    idstudente integer NOT NULL,
-    nome character varying(30) NOT NULL,
-    cognome character varying(30) NOT NULL,
-    datanascita date NOT NULL,
-    idclasse integer NOT NULL
+    primary key(idStudente, data),
+    foreign key (idStudente) references Studenti,
+    foreign key (idDocente) references Studenti
 );
 
-
---
--- TOC entry 201 (class 1259 OID 33386)
--- Name: utenti; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.utenti (
-    matricola integer DEFAULT nextval('public.seq_utenti'::regclass) NOT NULL,
-    username character varying(30) NOT NULL,
-    password character varying(128) NOT NULL,
-    tipo character varying(30) NOT NULL,
-    nomesede character varying(30) DEFAULT 'ITI'::character varying NOT NULL,
-    CONSTRAINT utenti_tipo_check CHECK (((tipo)::text = ANY ((ARRAY['Docente'::character varying, 'Studente'::character varying, 'Admin'::character varying])::text[])))
+create table Materie(
+    nomeMateria varchar(30) not null primary key,
+    descrizione varchar(50) not null
 );
 
+create table Competenze(
+    idDocente int not null,
+    nomeMateria varchar(50) not null,
 
---
--- TOC entry 210 (class 1259 OID 33506)
--- Name: voti; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.voti (
-    idvoto integer DEFAULT nextval('public.seq_voti'::regclass) NOT NULL,
-    valutazione integer NOT NULL,
-    descrizione character varying(50) NOT NULL,
-    data date NOT NULL,
-    idstudente integer NOT NULL,
-    iddocente integer NOT NULL,
-    nomemateria character varying(30) NOT NULL,
-    CONSTRAINT voti_valutazione_check CHECK (((valutazione >= 1) AND (valutazione <= 10)))
+    primary key(idDocente, nomeMateria),
+    foreign key (idDocente) references Docenti,
+    foreign key (nomeMateria) references Materie
 );
 
-
---
--- TOC entry 2929 (class 2606 OID 33732)
--- Name: circolari circolari_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.circolari
-    ADD CONSTRAINT circolari_pkey PRIMARY KEY (numero);
-
-
---
--- TOC entry 2913 (class 2606 OID 33399)
--- Name: classi classi_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.classi
-    ADD CONSTRAINT classi_pkey PRIMARY KEY (idclasse);
-
-
---
--- TOC entry 2923 (class 2606 OID 33474)
--- Name: competenze competenze_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.competenze
-    ADD CONSTRAINT competenze_pkey PRIMARY KEY (nomemateria, iddocente);
-
-
---
--- TOC entry 2915 (class 2606 OID 33414)
--- Name: docenti docenti_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.docenti
-    ADD CONSTRAINT docenti_pkey PRIMARY KEY (iddocente);
-
-
---
--- TOC entry 2917 (class 2606 OID 33424)
--- Name: insegnamenti insegnamenti_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.insegnamenti
-    ADD CONSTRAINT insegnamenti_pkey PRIMARY KEY (iddocente, idclasse);
-
-
---
--- TOC entry 2921 (class 2606 OID 33454)
--- Name: materie materie_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.materie
-    ADD CONSTRAINT materie_pkey PRIMARY KEY (nomemateria);
-
-
---
--- TOC entry 2931 (class 2606 OID 34296)
--- Name: presenze presenze_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.presenze
-    ADD CONSTRAINT presenze_pkey PRIMARY KEY (idstudente, data);
-
-
---
--- TOC entry 2927 (class 2606 OID 33625)
--- Name: sedi sedi_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sedi
-    ADD CONSTRAINT sedi_pkey PRIMARY KEY (nomesede);
-
-
---
--- TOC entry 2919 (class 2606 OID 33439)
--- Name: studenti studenti_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.studenti
-    ADD CONSTRAINT studenti_pkey PRIMARY KEY (idstudente);
-
-
---
--- TOC entry 2909 (class 2606 OID 33391)
--- Name: utenti utenti_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.utenti
-    ADD CONSTRAINT utenti_pkey PRIMARY KEY (matricola);
-
-
---
--- TOC entry 2911 (class 2606 OID 33530)
--- Name: utenti utenti_username_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.utenti
-    ADD CONSTRAINT utenti_username_key UNIQUE (username);
-
-
---
--- TOC entry 2925 (class 2606 OID 33512)
--- Name: voti voti_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.voti
-    ADD CONSTRAINT voti_pkey PRIMARY KEY (idvoto);
-
-
---
--- TOC entry 2944 (class 2606 OID 33733)
--- Name: circolari circolari_idadmin_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.circolari
-    ADD CONSTRAINT circolari_idadmin_fkey FOREIGN KEY (idadmin) REFERENCES public.utenti(matricola);
-
-
---
--- TOC entry 2945 (class 2606 OID 33738)
--- Name: circolari circolari_nomesede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.circolari
-    ADD CONSTRAINT circolari_nomesede_fkey FOREIGN KEY (nomesede) REFERENCES public.sedi(nomesede);
-
-
---
--- TOC entry 2933 (class 2606 OID 33653)
--- Name: classi classi_nomesede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.classi
-    ADD CONSTRAINT classi_nomesede_fkey FOREIGN KEY (nomesede) REFERENCES public.sedi(nomesede);
-
-
---
--- TOC entry 2940 (class 2606 OID 33480)
--- Name: competenze competenze_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.competenze
-    ADD CONSTRAINT competenze_iddocente_fkey FOREIGN KEY (iddocente) REFERENCES public.docenti(iddocente);
-
-
---
--- TOC entry 2939 (class 2606 OID 33475)
--- Name: competenze competenze_nomemateria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.competenze
-    ADD CONSTRAINT competenze_nomemateria_fkey FOREIGN KEY (nomemateria) REFERENCES public.materie(nomemateria);
-
-
---
--- TOC entry 2934 (class 2606 OID 33415)
--- Name: docenti docenti_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.docenti
-    ADD CONSTRAINT docenti_iddocente_fkey FOREIGN KEY (iddocente) REFERENCES public.utenti(matricola);
-
-
---
--- TOC entry 2936 (class 2606 OID 33430)
--- Name: insegnamenti insegnamenti_idclasse_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.insegnamenti
-    ADD CONSTRAINT insegnamenti_idclasse_fkey FOREIGN KEY (idclasse) REFERENCES public.classi(idclasse);
-
-
---
--- TOC entry 2935 (class 2606 OID 33425)
--- Name: insegnamenti insegnamenti_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.insegnamenti
-    ADD CONSTRAINT insegnamenti_iddocente_fkey FOREIGN KEY (iddocente) REFERENCES public.docenti(iddocente);
-
-
---
--- TOC entry 2947 (class 2606 OID 34302)
--- Name: presenze presenze_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.presenze
-    ADD CONSTRAINT presenze_iddocente_fkey FOREIGN KEY (iddocente) REFERENCES public.docenti(iddocente);
-
-
---
--- TOC entry 2946 (class 2606 OID 34297)
--- Name: presenze presenze_idstudente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.presenze
-    ADD CONSTRAINT presenze_idstudente_fkey FOREIGN KEY (idstudente) REFERENCES public.studenti(idstudente);
-
-
---
--- TOC entry 2938 (class 2606 OID 33445)
--- Name: studenti studenti_idclasse_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.studenti
-    ADD CONSTRAINT studenti_idclasse_fkey FOREIGN KEY (idclasse) REFERENCES public.classi(idclasse);
-
-
---
--- TOC entry 2937 (class 2606 OID 33440)
--- Name: studenti studenti_idstudente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.studenti
-    ADD CONSTRAINT studenti_idstudente_fkey FOREIGN KEY (idstudente) REFERENCES public.utenti(matricola);
-
-
---
--- TOC entry 2932 (class 2606 OID 33642)
--- Name: utenti utenti_nomesede_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.utenti
-    ADD CONSTRAINT utenti_nomesede_fkey FOREIGN KEY (nomesede) REFERENCES public.sedi(nomesede);
-
-
---
--- TOC entry 2942 (class 2606 OID 33518)
--- Name: voti voti_iddocente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.voti
-    ADD CONSTRAINT voti_iddocente_fkey FOREIGN KEY (iddocente) REFERENCES public.docenti(iddocente);
-
-
---
--- TOC entry 2941 (class 2606 OID 33513)
--- Name: voti voti_idstudente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.voti
-    ADD CONSTRAINT voti_idstudente_fkey FOREIGN KEY (idstudente) REFERENCES public.studenti(idstudente);
-
-
---
--- TOC entry 2943 (class 2606 OID 33523)
--- Name: voti voti_nomemateria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.voti
-    ADD CONSTRAINT voti_nomemateria_fkey FOREIGN KEY (nomemateria) REFERENCES public.materie(nomemateria);
-
-
--- Completed on 2021-04-25 12:57:56
-
---
--- PostgreSQL database dump complete
---
-
+create sequence seq_voti;
+
+create table Voti(
+    idVoto int not null primary key default nextval('seq_voti'),
+    data Date not null default CURRENT_DATE,
+    valutazione int not null,
+    descrizione varchar(50) not null,
+    idStudente int not null,
+    nomeMateria varchar(30) not null,
+    idDocente int not null,
+
+    check(valutazione >= 1 and valutazione <= 10),
+    
+    foreign key (idStudente) references Studenti,
+    foreign key (nomeMateria) references Materie,
+    foreign key (idDocente) references Docenti
+);

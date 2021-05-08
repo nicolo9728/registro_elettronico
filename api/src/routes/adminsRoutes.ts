@@ -96,9 +96,10 @@ adminsRoutes.post("/", controlloLoggato, controlloAdmin ,async (req, res)=>{
     const {username, password, nome, cognome, dataNascita} = req.body
 
     const passwordHash = await hash(password, await genSalt(10))
-
+    const pool = new Pool();
     try{
-        const ris = await new Pool(dbImpostazioni).query("INSERT into Utenti (username, password, tipo, nome, cognome, dataNascita) values ($1, $2, $3, $4, $5, $6)", [username, passwordHash, "Admin", nome, cognome, dataNascita])
+        const ris = await pool.query("INSERT into Utenti (username, password, tipo, nome, cognome, dataNascita) values ($1, $2, $3, $4, $5, $6) returning matricola", [username, passwordHash, "Admin", nome, cognome, dataNascita])
+        await pool.query("INSERT into Admins (idAdmin) values ($1)", [ris.rows[0]])
         const token = sign(username, <string>process.env.JWTPASSWORD)
         res.status(200).send(token)
     }

@@ -79,7 +79,6 @@ class Studente extends Utente with IterableMixin<GruppoVoti> {
 
   Future<void> aggiornaVoti() async {
     List data = jsonDecode(await HttpRequest.get("/studenti/voti"));
-
     _gestoreVoti.cancella();
     List<Voto> voti = [];
     data.forEach((votoData) {

@@ -24,20 +24,21 @@ class GestoreEventi with IterableMixin {
     });
 
     List presenze = dati["presenze"] as List;
-    presenze.forEach((data) {
-      int entrata = data["entrata"], uscita = data["uscita"];
+    if (presenze != null)
+      presenze.forEach((data) {
+        int entrata = data["entrata"], uscita = data["uscita"];
 
-      if (entrata > 1 && uscita < 6)
-        _eventi.addAll([EntrataPosticipata.fromData(data), UscitaAnticipata.fromData(data)]);
-      else if (entrata > 1)
-        _eventi.add(EntrataPosticipata.fromData(data));
-      else if (uscita < 6)
-        _eventi.add(UscitaAnticipata.fromData(data));
-      else
-        _eventi.add(Presenza.fromData(data));
-    });
+        if (entrata > 1 && uscita < 6)
+          _eventi.addAll([EntrataPosticipata.fromData(data), UscitaAnticipata.fromData(data)]);
+        else if (entrata > 1)
+          _eventi.add(EntrataPosticipata.fromData(data));
+        else if (uscita < 6)
+          _eventi.add(UscitaAnticipata.fromData(data));
+        else
+          _eventi.add(Presenza.fromData(data));
+      });
 
-    if (presenze.length == 0 && Utente.utenteLoggato.runtimeType == Studente) _eventi.add(new Assenza());
+    if (presenze != null && presenze.length == 0 && Utente.utenteLoggato.runtimeType == Studente) _eventi.add(new Assenza());
   }
 
   @override

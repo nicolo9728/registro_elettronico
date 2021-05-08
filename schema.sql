@@ -83,7 +83,7 @@ create table Presenze(
 
     primary key(idStudente, data),
     foreign key (idStudente) references Studenti,
-    foreign key (idDocente) references Studenti
+    foreign key (idDocente) references Docenti
 );
 
 create table Materie(

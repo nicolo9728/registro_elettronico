@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:registro/main.dart';
 import 'package:registro/models/Assenza.dart';
 import 'package:registro/models/EntrataPosticipata.dart';
 import 'package:registro/models/Presenza.dart';

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:registro/models/Docente.dart';
 import 'package:registro/models/Utente.dart';
 import 'package:registro/routes/ListaCircolari.dart';
 import 'package:registro/routes/ListaEventi.dart';
 import 'package:registro/routes/Profilo.dart';
-import 'DocenteHome.dart';
-import 'StudenteHome.dart';
 
 class Home extends StatefulWidget {
   @override

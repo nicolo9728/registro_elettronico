@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:registro/models/Classe.dart';
 import 'package:registro/models/HttpRequest.dart';
 import 'package:registro/models/Materia.dart';

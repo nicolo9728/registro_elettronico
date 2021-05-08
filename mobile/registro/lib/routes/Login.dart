@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:registro/models/Utente.dart';
-import 'package:registro/routes/Caricamento.dart';
 import 'package:registro/routes/Home.dart';
 
 class Login extends StatefulWidget {

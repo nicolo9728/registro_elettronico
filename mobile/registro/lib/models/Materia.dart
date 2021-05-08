@@ -1,5 +1,4 @@
 import 'package:registro/models/IParametro.dart';
-import 'package:registro/views/VisualizzatoreParametri.dart';
 
 class Materia implements IParametro {
   String _nome, _descrizione;

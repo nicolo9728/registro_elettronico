@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:registro/models/IEvento.dart';
-import 'package:registro/views/VotoWidget.dart';
 
 class Voto implements Comparable, IEvento {
   int _valutazione;
   DateTime _data;
   String _nomeMateria, _descrizione;
-  String _nome = null;
+  String _nome = "";
 
   Voto(int valutazione, String nomeMateria, String descrizione, DateTime data) {
     this.data = data;

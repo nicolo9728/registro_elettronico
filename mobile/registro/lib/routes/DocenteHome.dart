@@ -7,7 +7,6 @@ import 'package:registro/models/Utente.dart';
 import 'package:registro/routes/Caricamento.dart';
 import 'package:registro/routes/GestioneStudente.dart';
 import 'package:registro/views/StudenteItem.dart';
-import 'AggiungiVoto.dart';
 
 class DocenteHome extends StatefulWidget {
   @override

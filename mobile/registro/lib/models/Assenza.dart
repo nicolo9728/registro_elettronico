@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:registro/models/IEvento.dart';
 import 'package:registro/models/Presenza.dart';
 
 import 'HttpRequest.dart';

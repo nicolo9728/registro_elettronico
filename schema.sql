@@ -15,6 +15,7 @@ create table Utenti(
     tipo varchar(10) not null,
     nomeSede char(3) not null,
 
+    unique(username),
     foreign key (nomeSede) references Sedi,
     check(tipo in ('Docente', 'Studente', 'Admin'))
 );

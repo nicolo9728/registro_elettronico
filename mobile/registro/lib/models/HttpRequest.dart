@@ -4,7 +4,7 @@ import 'package:registro/models/Utente.dart';
 
 class HttpRequest {
   static Map<String, String> get _header => {"Authorization": Utente.token ?? "", "Content-Type": "application/json"};
-  static final String dominio = kDebugMode ? "http://192.168.1.148:5000" : "http://20.199.109.89:5000";
+  static final String dominio = "http://20.199.109.89:5000";
 
   static Future<String> get(String url) async {
     http.Response response = await http.get(Uri.parse(dominio + url), headers: _header);

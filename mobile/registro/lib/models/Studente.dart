@@ -63,10 +63,10 @@ class Studente extends Utente with IterableMixin<GruppoVoti> {
         return "Presente";
         break;
       case StatusStudente.Entrato:
-        return "Entrato/a";
+        return "Entrato/a $entrata^a ora";
         break;
       case StatusStudente.Uscito:
-        return "Uscito/a";
+        return "Uscito/a $uscita^a ora";
         break;
       default:
         return "Non identificato";
@@ -114,8 +114,17 @@ class Studente extends Utente with IterableMixin<GruppoVoti> {
 
   int get numeroMaterie => _gestoreVoti.length;
 
-  void aggiornaStatus(StatusStudente status) {
+  void aggiornaStatus(StatusStudente status, int ora) {
     if (status == StatusStudente.Entrato && _status == StatusStudente.Uscito) return;
+
+    if (status == StatusStudente.Entrato)
+      _entrata = ora;
+    else if (status == StatusStudente.Uscito)
+      _uscita = ora;
+    else if (status == StatusStudente.Presente || status == StatusStudente.Assente) {
+      _uscita = 6;
+      _entrata = 1;
+    }
 
     _status = status;
   }

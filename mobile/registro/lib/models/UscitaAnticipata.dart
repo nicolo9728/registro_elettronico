@@ -42,7 +42,10 @@ class UscitaAnticipata extends Presenza {
 
   @override
   Future<void> segna(Studente studente) async {
-    await HttpRequest.post("/docenti/segnaUscita", jsonEncode({"idStudente": studente.matricola, "uscita": uscita}));
-    studente.aggiornaStatus(StatusStudente.Uscito);
+    if (uscita >= studente.entrata) {
+      await HttpRequest.post("/docenti/segnaUscita", jsonEncode({"idStudente": studente.matricola, "uscita": uscita}));
+      studente.aggiornaStatus(StatusStudente.Uscito, uscita);
+    } else
+      throw new ArgumentError("lo studente non puo essere uscito prima di entrare");
   }
 }

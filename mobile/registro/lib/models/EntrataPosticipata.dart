@@ -40,9 +40,10 @@ class EntrataPosticipata extends Presenza {
 
   @override
   Future<void> segna(Studente studente) async {
-    if (entrata < studente.uscita) {
+    if (studente.uscita == null || entrata < studente.uscita) {
       await HttpRequest.post("/docenti/segnaEntrata", jsonEncode({"idStudente": studente.matricola, "entrata": entrata}));
-      studente.aggiornaStatus(StatusStudente.Entrato);
+
+      studente.aggiornaStatus(StatusStudente.Entrato, entrata);
     } else {
       throw new ArgumentError("lo studente non puo essere entrato dopo essere uscito");
     }

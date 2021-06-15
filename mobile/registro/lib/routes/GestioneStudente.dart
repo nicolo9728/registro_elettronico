@@ -7,6 +7,7 @@ import 'package:registro/models/UscitaAnticipata.dart';
 import 'package:registro/routes/AggiungiVoto.dart';
 import 'package:registro/views/ProfiloGeneralita.dart';
 
+// ignore: must_be_immutable
 class GestioneStudente extends StatefulWidget {
   Studente _studente;
 
@@ -42,13 +43,15 @@ class _GestioneStudenteState extends State<GestioneStudente> {
       else
         p = new Assenza();
 
+      print(_studente);
+
       await p.segna(_studente);
     } catch (e) {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
                 title: Text("Errore"),
-                content: Text(e.message),
+                content: Text(e.toString()),
                 actions: [
                   TextButton(
                       onPressed: () {
@@ -104,36 +107,37 @@ class _GestioneStudenteState extends State<GestioneStudente> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
+              child: Flex(
+                direction: Axis.horizontal,
                 children: [
-                  Text(
-                    "Imposta status:",
-                    style: TextStyle(fontSize: 15),
+                  Expanded(
+                    child: Text(
+                      "Imposta status:",
+                      style: TextStyle(fontSize: 15),
+                    ),
                   ),
                   SizedBox(
                     width: 30,
                   ),
-                  Flexible(
-                    child: DropdownButton<StatusStudente>(
-                      onChanged: (value) {
-                        setState(() {
-                          _status = value;
-                        });
-                      },
-                      value: _status,
-                      dropdownColor: Color.fromARGB(255, 30, 33, 43),
-                      hint: Text("status"),
-                      items: StatusStudente.values
-                          .map((status) => DropdownMenuItem<StatusStudente>(
-                              value: status,
-                              child: Container(
-                                child: Text(
-                                  status.toString().split('.').last,
-                                  style: TextStyle(color: Colors.white60),
-                                ),
-                              )))
-                          .toList(),
-                    ),
+                  DropdownButton<StatusStudente>(
+                    onChanged: (value) {
+                      setState(() {
+                        _status = value;
+                      });
+                    },
+                    value: _status,
+                    dropdownColor: Color.fromARGB(255, 30, 33, 43),
+                    hint: Text("status"),
+                    items: StatusStudente.values
+                        .map((status) => DropdownMenuItem<StatusStudente>(
+                            value: status,
+                            child: Container(
+                              child: Text(
+                                status.toString().split('.').last,
+                                style: TextStyle(color: Colors.white60),
+                              ),
+                            )))
+                        .toList(),
                   ),
                   SizedBox(
                     width: 20,
@@ -162,24 +166,20 @@ class _GestioneStudenteState extends State<GestioneStudente> {
                         SizedBox(
                           width: 20,
                         ),
-                        TextButton(
-                            onPressed: segna,
-                            child: Text(
-                              "segna",
-                              style: TextStyle(color: Colors.black),
-                            ))
                       ],
                     )
-                  else
-                    TextButton(
-                        onPressed: segna,
-                        child: Text(
-                          "segna",
-                          style: TextStyle(color: Colors.black),
-                        ))
                 ],
               ),
             ),
+            SizedBox(
+              height: 30,
+            ),
+            TextButton(
+                onPressed: segna,
+                child: Text(
+                  "segna",
+                  style: TextStyle(color: Colors.black),
+                ))
           ],
         ),
       ),

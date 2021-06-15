@@ -16,7 +16,7 @@ class Assenza extends Presenza {
 
   Future<void> segna(Studente studente) async {
     await HttpRequest.post("/docenti/cancellaPresenza", jsonEncode({"idStudente": studente.matricola}));
-    studente.aggiornaStatus(StatusStudente.Assente);
+    studente.aggiornaStatus(StatusStudente.Assente, null);
   }
 
   @override

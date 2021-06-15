@@ -1,12 +1,12 @@
 import { config } from "dotenv"
 import express from "express"
-import { adminsRoutes } from "../src/routes/adminsRoutes"
-import { circolariRoutes } from "../src/routes/circolariRoutes"
-import { docenteRoutes } from "../src/routes/docenteRoutes"
-import { eventiRoutes } from "../src/routes/eventiRoutes"
-import { materieRoutes } from "../src/routes/materieRoutes"
-import { studenteRoutes } from "../src/routes/studenteRoutes"
-import { utenteRoutes } from "../src/routes/utenteRoutes"
+import { adminsRoutes } from "./routes/adminsRoutes"
+import { circolariRoutes } from "./routes/circolariRoutes"
+import { docenteRoutes } from "./routes/docenteRoutes"
+import { eventiRoutes } from "./routes/eventiRoutes"
+import { materieRoutes } from "./routes/materieRoutes"
+import { studenteRoutes } from "./routes/studenteRoutes"
+import { utenteRoutes } from "./routes/utenteRoutes"
 
 
 const app = express()

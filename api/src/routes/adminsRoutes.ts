@@ -1,4 +1,4 @@
-import { genSalt, hash } from "bcryptjs";
+import { genSalt, hash } from "bcrypt";
 import { Router } from "express";
 import { sign } from "jsonwebtoken";
 import { Pool } from "pg";
@@ -44,12 +44,12 @@ adminsRoutes.post("/aggiungiDocente", controlloLoggato, controlloAdmin , async (
         const passwordCriptata = await hash(password, salt)
 
         const risultato = await new Pool(dbImpostazioni).query(
-            "INSERT into Utenti (username, password, tipo, nome, cognome, dataNascita) values ($1, $2, 'Docente', $3, $4, $5, $6) returning matricola",
+            "INSERT into Utenti (username, password, tipo, nomeSede, nome, cognome, dataNascita) values ($1, $2, 'Docente', $3, $4, $5, $6) returning matricola",
             [username, passwordCriptata, nomeSede, nome, cognome, dataNascita]
         )
-
+        
         matricola = risultato.rows[0].matricola
-        await new Pool(dbImpostazioni).query(`INSERT into Docenti (idDocente) values($1)`, [matricola, nome, cognome, dataNascita])
+        await new Pool(dbImpostazioni).query(`INSERT into Docenti (idDocente) values($1)`, [matricola])
 
         const token = sign(username,<string>process.env.JWTPASSWORD)
 

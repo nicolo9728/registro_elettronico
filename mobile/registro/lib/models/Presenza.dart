@@ -31,7 +31,7 @@ class Presenza implements IEvento {
 
   Future<void> segna(Studente studente) async {
     await HttpRequest.post("/docenti/segnaPresenza", jsonEncode({"idStudente": studente.matricola}));
-    studente.aggiornaStatus(StatusStudente.Presente);
+    studente.aggiornaStatus(StatusStudente.Presente, null);
   }
 
   @override

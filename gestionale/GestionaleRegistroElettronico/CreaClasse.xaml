@@ -1,0 +1,25 @@
+﻿<Window x:Class="GestionaleRegistroElettronico.CreaClasse"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionaleRegistroElettronico" xmlns:src="clr-namespace:GestionaleRegistroElettronico.controlli"
+        mc:Ignorable="d"
+        Title="CreaClasse" Height="229" Width="359">
+    <StackPanel Margin="20">
+        <TextBlock HorizontalAlignment="Center" FontSize="25">Crea Classe</TextBlock>
+        <TextBlock>Sezione</TextBlock>
+        <TextBox x:Name="txtSezione"/>
+        <TextBlock>Anno</TextBlock>
+        <TextBox x:Name="nudAnno">
+            <TextBox.Text>
+                <Binding Path="Text" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <src:ControlloNumero />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <Button Margin="30, 10" Click="Crea">Crea</Button>
+    </StackPanel>
+</Window>

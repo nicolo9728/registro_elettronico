@@ -1,0 +1,51 @@
+﻿<Window x:Class="GestionaleRegistroElettronico.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionaleRegistroElettronico"
+        mc:Ignorable="d"
+        Title="Gestionale Registro Elettronico" Height="450" Width="800">
+    <DockPanel >
+        <StackPanel Width="200" DockPanel.Dock="Right" Margin="5">
+            <TextBlock HorizontalAlignment="Center" FontSize="20">Operazioni</TextBlock>
+            <Button Margin="20, 40, 20, 20" Click="CreaDocente">Crea docente</Button>
+            <Button Margin="20, 0" Click="EliminaDocente">Elimina Docente</Button>
+            <Button Margin="20, 20" Click="GestioneSede">Gesisci Sede</Button>
+        </StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" Grid.RowSpan="2" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition  Height="20"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock>Sedi</TextBlock>
+                <ListBox ItemsSource="{Binding}" Grid.Row="1" x:Name="lbxSedi" />
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="1" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition  Height="20"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" VerticalAlignment="Center">Docenti</TextBlock>
+                <ListBox ItemsSource="{Binding ElementName=lbxSedi, Path=SelectedItem.Docenti}" Grid.Row="1" x:Name="lbxDocenti"/>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition  Height="20"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" VerticalAlignment="Center">Classi</TextBlock>
+                <ListBox ItemsSource="{Binding ElementName=lbxSedi, Path=SelectedItem.Classi}" Grid.Row="1" x:Name="lbxClassi"/>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>

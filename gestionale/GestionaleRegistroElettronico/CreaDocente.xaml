@@ -1,0 +1,58 @@
+﻿<Window x:Class="GestionaleRegistroElettronico.CreaDocente"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionaleRegistroElettronico"
+        mc:Ignorable="d"
+        Title="CreaDocente" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="35"/>
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+            <TextBlock FontSize="25">Docente della la sede</TextBlock>
+            <TextBlock Text="{Binding Sede}"/>
+        </WrapPanel>
+        <StackPanel VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="5">
+            <TextBlock FontSize="25" Margin="0,5, 0 20" HorizontalAlignment="Center">Dati personali</TextBlock>
+            <Label>Nome</Label>
+            <TextBox x:Name="txtNome"/>
+            <Label>Cognome</Label>
+            <TextBox x:Name="txtCognome"/>
+            <Label>Username</Label>
+            <TextBox x:Name="txtUsername"/>
+            <Label>Password</Label>
+            <PasswordBox x:Name="txtPassword" PasswordChar="*"/>
+            <Label>Data nascita</Label>
+            <DatePicker Name="dtpNascita"/>
+        </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="1" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0">Competenze</TextBlock>
+            <ListBox x:Name="lbxCompetenze" Grid.Row="1" SelectionMode="Multiple" />
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="2" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0">Classi</TextBlock>
+            <ListBox x:Name="lbxClassi" Grid.Row="1" SelectionMode="Multiple" />
+        </Grid>
+        <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0" Grid.Row="2" Grid.Column="2">
+            <Button Width="100" Height="30">Annulla</Button>
+            <Button Width="100" Height="30" Margin="5,0,0, 0" Click="Salva">Salva</Button>
+        </WrapPanel>
+    </Grid>
+</Window>

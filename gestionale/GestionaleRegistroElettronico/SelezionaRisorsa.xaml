@@ -1,0 +1,22 @@
+﻿<Window x:Class="GestionaleRegistroElettronico.SelezionaRisorsa"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionaleRegistroElettronico"
+        mc:Ignorable="d"
+        Title="SelezionaRisorsa" Height="379" Width="349">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Margin="0,0,10,0" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center">Seleziona</TextBlock>
+            <TextBlock FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="lblTipo"/>
+        </WrapPanel>
+        <ListBox  ItemsSource="{Binding}" x:Name="lbxClassi" Grid.Row="1"/>
+        <Button Grid.Row="2" Margin="8" Click="Seleziona">Seleziona</Button>
+    </Grid>
+</Window>

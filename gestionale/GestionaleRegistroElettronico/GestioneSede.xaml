@@ -1,0 +1,129 @@
+﻿<Window x:Class="GestionaleRegistroElettronico.GestioneSede"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionaleRegistroElettronico"
+        mc:Ignorable="d"
+        Title="Gestione sede" Height="450" Width="800">
+    <TabControl>
+        <TabItem Header="Studenti">
+            <Grid>
+                <Grid.RowDefinitions >
+                    <RowDefinition  Height="20"/>
+                    <RowDefinition />
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="10, 0" Grid.Row="0" Grid.Column="0">Classi</TextBlock>
+                <TextBlock Margin="10, 0" Grid.Row="0" Grid.Column="1">Studenti</TextBlock>
+                <ListBox ItemsSource="{Binding Classi}" Margin="10,0, 10,10" x:Name="lbxClassi" Grid.Row="1" Grid.Column="0"/>
+                <ListBox ItemsSource="{Binding ElementName=lbxClassi, Path=SelectedItem.Studenti}" Margin="10,0, 10,10" x:Name="lbxStudenti" Grid.Row="1" Grid.Column="1" />
+                <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
+                    <TextBlock Margin="0, 0, 0, 30" HorizontalAlignment="Center" FontSize="25">Operazioni</TextBlock>
+                    <Button Margin="20, 10" IsEnabled="{Binding ElementName=lbxClassi, Path=SelectedItems.Count}" Click="CreaStudente">Crea Studente</Button>
+                    <Button Margin="20, 10" IsEnabled="{Binding ElementName=lbxStudenti, Path=SelectedItems.Count}" Click="EliminaStudente">Elimina Studente</Button>
+                    <Button Margin="20, 10" IsEnabled="{Binding ElementName=lbxStudenti, Path=SelectedItems.Count}" Click="TrasferisciStudente">Trasferisci</Button>
+                    <Separator Margin="20"/>
+                    <Button Margin="20, 10" Click="CreaClasse">Crea Classe</Button>
+                    <Button Margin="20, 10" IsEnabled="{Binding ElementName=lbxClassi, Path=SelectedItems.Count}">Elimina Classe</Button>
+                    <Separator Margin="20"/>
+                    <Button IsEnabled="{Binding ElementName=lbxStudenti, Path=SelectedItems.Count}" Margin="20, 10" Click="GestioneStudente">Gestisci Voti</Button>
+                </StackPanel>
+                <WrapPanel Margin="10, 0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                    <WrapPanel>
+                        <TextBlock>Numero di Classi: </TextBlock>
+                        <TextBlock Margin="5, 0,0,0" Text="{Binding ElementName=lbxClassi, Path=Items.Count}" />
+                    </WrapPanel>
+                    <WrapPanel Margin="20, 0,0,0">
+                        <TextBlock>Numero Studenti</TextBlock>
+                        <TextBlock Margin="5, 0,0,0" Text="{Binding ElementName=lbxStudenti, Path=Items.Count}" />
+                    </WrapPanel>
+                </WrapPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Docenti">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition />
+                    <RowDefinition Height="30" />
+                    <RowDefinition />
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="10, 0" VerticalAlignment="Bottom">Docenti</TextBlock>
+                <TextBlock VerticalAlignment="Bottom" Grid.Column="1">Classi</TextBlock>
+                <TextBlock VerticalAlignment="Bottom" Grid.Row="2" Grid.Column="1">Materie</TextBlock>
+                <ListBox ItemsSource="{Binding Docenti}" Margin="10, 0" x:Name="lbxDocenti" Grid.Row="1" Grid.RowSpan="3"/>
+                <ListBox ItemsSource="{Binding ElementName=lbxDocenti, Path=SelectedItem.Classi}" x:Name="lbxClassiDocente" Grid.Row="1" Grid.Column="1" />
+                <ListBox ItemsSource="{Binding ElementName=lbxDocenti, Path=SelectedItem.Materie}" x:Name="lbxMaterieDocente" Grid.Row="3" Grid.Column="1"/>
+                <StackPanel Grid.Column="2" Grid.RowSpan="4">
+                    <TextBlock HorizontalAlignment="Center" FontSize="25" Margin="0, 20">Operazioni</TextBlock>
+                    <Button Margin="20, 5" Click="CreaDocente">Crea Docente</Button>
+                    <Button Margin="20, 5" IsEnabled="{Binding ElementName=lbxDocenti, Path=SelectedItems.Count}" Click="EliminaDocente">Elimina Docente</Button>
+                    <Separator Margin="20" />
+                    <Button Margin="20, 5" Click="AggiungiMateriaDocente">Aggingi Materia</Button>
+                    <Button Margin="20, 5" IsEnabled="{Binding ElementName=lbxMaterieDocente, Path=SelectedItems.Count}" Click="RimuoviMateriaDocente">Rimuovi Materia</Button>
+                    <Separator Margin="20"/>
+                    <Button Margin="20, 5" Click="AggiungiClasseDocente">Aggiungi Classe</Button>
+                    <Button Margin="20, 5" IsEnabled="{Binding ElementName=lbxClassiDocente, Path=SelectedItems.Count}" Click="RimuoviClasseDocente">Rimuovi Classe</Button>
+                </StackPanel>
+                <WrapPanel Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="3">
+                    <WrapPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                        <TextBlock>Docenti:</TextBlock>
+                        <TextBlock  Margin="5,0,0,0" Text="{Binding ElementName=lbxDocenti, Path=Items.Count}" />
+                    </WrapPanel>
+                    <WrapPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                        <TextBlock>Classi:</TextBlock>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding ElementName=lbxClassiDocente, Path=Items.Count}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                        <TextBlock>Materie:</TextBlock>
+                        <TextBlock  Margin="5,0,0,0" Text="{Binding ElementName=lbxMaterieDocente, Path=Items.Count}" />
+                    </WrapPanel>
+                </WrapPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Circolari">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="35"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock VerticalAlignment="Bottom">Titolo</TextBlock>
+                    <TextBox FontSize="25" VerticalAlignment="Center" x:Name="txtTitolo" Grid.Row="1"/>
+                    <TextBlock Grid.Row="2" VerticalAlignment="Bottom">Contenuto</TextBlock>
+                    <TextBox x:Name="txtContenuto" Grid.RowSpan="2" MaxLines="100" FontSize="18" TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="3"/>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <ListBox Margin="10, 0,0,0" Grid.Row="0" x:Name="lbxCircolari" ItemsSource="{Binding Circolari}"/>
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1">
+                        <Button Width="80" Margin="0,0,10, 0" Click="CreaCircolare">Crea</Button>
+                        <Button Width="80" IsEnabled="{Binding ElementName=lbxCircolari, Path=SelectedItems.Count}" Click="EliminaCircolare">Elimina</Button>
+                    </WrapPanel>
+                </Grid>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>

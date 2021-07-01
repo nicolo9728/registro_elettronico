@@ -191,5 +191,24 @@ namespace GestionaleRegistroElettronico
             GestioneStudente gestione = new GestioneStudente(studente);
             gestione.ShowDialog();
         }
+
+        private void DeselezionaCircolare(object sender, RoutedEventArgs e)
+        {
+            lbxCircolari.SelectedIndex = -1;
+        }
+
+        private void AggiornaCircolare(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Circolare circolare = (Circolare)lbxCircolari.SelectedItem;
+                circolare.Aggiorna();
+                MessageBox.Show("Circolare aggiornata con successo");
+            }
+            catch(Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
+        }
     }
 }

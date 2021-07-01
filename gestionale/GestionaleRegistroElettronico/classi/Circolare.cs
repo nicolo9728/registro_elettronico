@@ -91,5 +91,21 @@ namespace GestionaleRegistroElettronico.classi
 
             sede.Circolari.Remove(this);
         }
+
+        public void Aggiorna()
+        {
+            using(NpgsqlConnection conn = new NpgsqlConnection(Risorse.StringaDiConnessione))
+            {
+                conn.Open();
+                using(NpgsqlCommand aggiorna = new NpgsqlCommand("Update Circolari set titolo=@tit, contenuto=@cont where numero=@n", conn))
+                {
+                    aggiorna.Parameters.AddWithValue("tit", titolo);
+                    aggiorna.Parameters.AddWithValue("cont", contenuto);
+                    aggiorna.Parameters.AddWithValue("n", numero);
+
+                    aggiorna.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

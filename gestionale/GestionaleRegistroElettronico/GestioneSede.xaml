@@ -108,20 +108,30 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBlock VerticalAlignment="Bottom">Titolo</TextBlock>
-                    <TextBox FontSize="25" VerticalAlignment="Center" x:Name="txtTitolo" Grid.Row="1"/>
+                    <TextBox Text="{Binding ElementName=lbxCircolari, Path=SelectedItem.Titolo}" FontSize="25" VerticalAlignment="Center" x:Name="txtTitolo" Grid.Row="1"/>
                     <TextBlock Grid.Row="2" VerticalAlignment="Bottom">Contenuto</TextBlock>
-                    <TextBox x:Name="txtContenuto" Grid.RowSpan="2" MaxLines="100" FontSize="18" TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="3"/>
+                    <TextBox x:Name="txtContenuto" Grid.RowSpan="2" MaxLines="100" FontSize="18" TextWrapping="Wrap" Text="{Binding ElementName=lbxCircolari, Path=SelectedItem.Contenuto}" AcceptsReturn="True" Grid.Row="3"/>
                 </Grid>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition />
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="70"/>
                     </Grid.RowDefinitions>
                     <ListBox Margin="10, 0,0,0" Grid.Row="0" x:Name="lbxCircolari" ItemsSource="{Binding Circolari}"/>
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1">
-                        <Button Width="80" Margin="0,0,10, 0" Click="CreaCircolare">Crea</Button>
-                        <Button Width="80" IsEnabled="{Binding ElementName=lbxCircolari, Path=SelectedItems.Count}" Click="EliminaCircolare">Elimina</Button>
-                    </WrapPanel>
+                    <Grid Grid.Row="4" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+                            <Button Width="80" Margin="0,0,10, 0" Click="DeselezionaCircolare">Deseleziona</Button>
+                            <Button Width="80" IsEnabled="{Binding ElementName=lbxCircolari, Path=SelectedItems.Count}" Click="AggiornaCircolare">Aggiorna</Button>
+                        </WrapPanel>
+                        <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                            <Button Width="80" Margin="0,0,10, 0" Click="CreaCircolare">Crea</Button>
+                            <Button Width="80" IsEnabled="{Binding ElementName=lbxCircolari, Path=SelectedItems.Count}" Click="EliminaCircolare">Elimina</Button>
+                        </WrapPanel>
+                    </Grid>
                 </Grid>
             </Grid>
         </TabItem>
